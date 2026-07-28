@@ -1,4 +1,8 @@
 /* Dark premium theme: gold accents */
+.section-title {
+  color: var(--gold);
+}
+
 :root{
   --page-bg:#0a0a0a;
   --content-bg:#111111;
