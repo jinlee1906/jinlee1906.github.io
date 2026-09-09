@@ -30,6 +30,6 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(activeLink) activeLink.classList.add('active');
       }
     });
-  },{threshold:0.35});
+  },{threshold:0.5});
   sections.forEach(section=>spyObserver.observe(section));
 })

@@ -28,3 +28,12 @@ Behavior:
 - Be decisive and finish the job.
 
 Use this agent for feature implementation, bug fixes, file creation, refactors, website updates, content changes, scripts, styling, and other direct engineering tasks.
+
+## Token Optimization Rule:
+- When outputting updated files, do NOT return the entire file unless explicitly requested with the keyword `[FULL_FILE]`.
+- Instead, return ONLY the changed sections wrapped in:
+  <!-- CHANGED: START -->
+  [changed code here]
+  <!-- CHANGED: END -->
+- Keep all unchanged code implicit. The user will merge the changes manually.
+- This rule is mandatory to preserve token budget.

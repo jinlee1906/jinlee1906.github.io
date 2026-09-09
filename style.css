@@ -84,7 +84,7 @@ nav a:focus{outline:3px solid rgba(212,162,76,0.12)}
 .hero-arrow{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center}
 .hero-arrow span{font-size:2rem;color:var(--gold);animation:bounce 1.8s infinite}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
-.panel{background:var(--content-bg);padding:28px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-bottom:28px}
+.panel{background:var(--content-bg);padding:28px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-bottom:28px; position:relative; z-index: 1;}
 .section-title{color:var(--gold);font-size:2.2rem;margin:0 0 16px 0;letter-spacing:1px}
 .section-underline{width:60px;height:3px;background:var(--gold);border-radius:3px;margin-bottom:18px}
 .section-divider{width:80%;height:1px;margin:20px auto;background:#d4a24c;opacity:.3;border:none}
@@ -115,4 +115,260 @@ nav a:focus{outline:3px solid rgba(212,162,76,0.12)}
 .in-view{opacity:1;transform:none}
 @media (max-width:1024px){.project-grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:220px 1fr}.sidebar{padding:28px 16px}}
 @media (max-width:768px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto;width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.03)}.project-grid{grid-template-columns:1fr}.content{padding:24px}}
-+a:focus{outline:3px solid rgba(212,162,76,0.12);outline-offset:3px}
+a:focus{outline:3px solid rgba(212,162,76,0.12);outline-offset:3px}
+
+#research, #education {
+  min-height: 50vh;
+}
+.venturi-images {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.venturi-images img {
+  display: block;
+  width: 60%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 162, 76, 0.2);
+}
+
+.project-page {
+  padding: clamp(28px, 4vw, 42px);
+}
+
+.project-page > h1 {
+  margin: 0 0 18px;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.project-page > h2 {
+  margin-top: 28px;
+  margin-bottom: 12px;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--gold);
+}
+
+.project-page p,
+.project-page li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.project-page .project-summary {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.6;
+  margin: 0 0 20px;
+  color: var(--text);
+}
+
+.project-page .project-image {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.project-page .project-image img,
+.project-page img {
+  display: block;
+  width: 60%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 162, 76, 0.2);
+}
+
+.project-page ul {
+  padding-left: 1.5rem;
+  margin: 12px 0 0;
+}
+
+.project-page li + li {
+  margin-top: 8px;
+}
+
+.project-page .back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--gold);
+}
+
+.responsive-image {
+  width: 100%;
+  max-width: 400px;    /* Adjust this number to control max size */
+  height: auto;        /* Keeps aspect ratio correct */
+  border-radius: 12px; /* Matches your theme */
+  border: 1px solid rgba(212, 162, 76, 0.2);
+}
+.skills-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 20px 0 28px 0;
+  align-items: center;
+}
+
+.skills-logos img {
+  height: 52px;
+  width: auto;
+  filter: brightness(0) invert(1) opacity(0.85);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.skills-logos img:hover {
+  transform: scale(1.08);
+  opacity: 1;
+}
+/* =========================================
+   SIDEBAR ACHIEVEMENTS SECTION
+   ========================================= */
+.sidebar-achievements {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(212, 162, 76, 0.15); /* Subtle gold divider */
+}
+
+.achievements-title {
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
+}
+
+.achievement-item {
+  margin-bottom: 16px;
+}
+
+.achievement-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.achievement-name {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.achievement-percent {
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* The empty track */
+.achievement-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06); /* Faint white track */
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* The gold fill */
+.achievement-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 999px;
+  width: 0%; /* Default width */
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth animation effect */
+}
+/* Force images to display inside extracurricular cards */
+.extracard-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(212,162,76,0.1);
+  overflow: hidden;
+}
+
+.extracard-img img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  padding: 10px;
+}
+
+/* Gold text labels for skills without a stable logo (Technical Skills section) */
+.skill-tag {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Education section: school heading and semester term labels */
+.edu-school {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.edu-term {
+  list-style: none;
+  font-weight: 700;
+  text-decoration: underline;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.edu-term:first-child {
+  margin-top: 0;
+}
+
+/* Contact block on project-page sidebar (previously unstyled) */
+.sidebar-extras {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212,162,76,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-extras p {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.sidebar-extras a {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.sidebar-extras a:hover {
+  color: var(--gold);
+}
+
+/* Logo image wrapper on extracurricular detail pages (oc/ssa/tcl) */
+.extracurricular-image {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.extracurricular-image img {
+  max-width: 300px;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+}
