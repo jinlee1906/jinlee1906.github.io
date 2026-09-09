@@ -32,4 +32,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   },{threshold:0.5});
   sections.forEach(section=>spyObserver.observe(section));
+
+  // randomize each floating bond-line shape's speed, drift, and spin direction
+  document.querySelectorAll('.hex-background .hex').forEach(el=>{
+    const dur=(18+Math.random()*24).toFixed(1);              // 18s - 42s per shape
+    const tx=(Math.random()*70-35).toFixed(0);                // -35px - 35px horizontal drift
+    const ty=(Math.random()*70-35).toFixed(0);                // -35px - 35px vertical drift
+    const rot=(Math.random()<0.5?-1:1)*(Math.random()<0.5?360:720); // random spin direction/turns
+    el.style.setProperty('--dur',dur+'s')
+    el.style.setProperty('--tx',tx+'px')
+    el.style.setProperty('--ty',ty+'px')
+    el.style.setProperty('--rot',rot+'deg')
+    el.style.animationDelay=(-Math.random()*dur).toFixed(1)+'s' // random start phase
+  })
 })
