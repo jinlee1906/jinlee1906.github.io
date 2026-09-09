@@ -45,9 +45,35 @@ SIDEBARS = {
 }
 
 
+# Skeletal-formula style motifs (plain bond lines, no fill), each in a
+# 0-0-100-100 viewBox so they drop into any .hex-N sized box.
+MOLECULES = [
+    # zigzag alkane chain (hexane-like)
+    '<polyline points="10,68 29,40 48,68 67,40 86,68"/>',
+    # branched chain with a methyl branch
+    '<polyline points="12,78 30,52 48,78 66,52 84,78"/><line x1="30" y1="52" x2="19" y2="26"/>',
+    # plain ring (cyclohexane)
+    '<polygon points="85,50 67.5,19.7 32.5,19.7 15,50 32.5,80.3 67.5,80.3"/>',
+    # ring with one double bond (cyclohexene)
+    '<polygon points="85,50 67.5,19.7 32.5,19.7 15,50 32.5,80.3 67.5,80.3"/>'
+    '<line x1="78" y1="52" x2="63.5" y2="26.5"/>',
+    # triple bond chain (hexyne-like)
+    '<line x1="10" y1="76" x2="28" y2="50"/>'
+    '<line x1="28" y1="46" x2="72" y2="46"/>'
+    '<line x1="28" y1="50" x2="72" y2="50"/>'
+    '<line x1="28" y1="54" x2="72" y2="54"/>'
+    '<line x1="72" y1="50" x2="90" y2="76"/>',
+]
+
+
 def hex_background(count):
-    hexes = "\n".join(f'      <div class="hex hex-{i}"></div>' for i in range(1, count + 1))
-    return f'    <div class="hex-background" aria-hidden="true">\n{hexes}\n    </div>\n'
+    hexes = []
+    for i in range(1, count + 1):
+        motif = MOLECULES[(i - 1) % len(MOLECULES)]
+        hexes.append(
+            f'      <div class="hex hex-{i}"><svg viewBox="0 0 100 100" class="bond-svg">{motif}</svg></div>'
+        )
+    return '    <div class="hex-background" aria-hidden="true">\n' + "\n".join(hexes) + '\n    </div>\n'
 
 
 PAGE_ORNAMENTS = """    <div class="page-ornaments" aria-hidden="true">
