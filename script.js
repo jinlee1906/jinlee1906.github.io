@@ -33,6 +33,18 @@ document.addEventListener('DOMContentLoaded',()=>{
   },{threshold:0.5});
   sections.forEach(section=>spyObserver.observe(section));
 
+  // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
+  const root=document.documentElement;
+  const toggle=document.querySelector('.theme-toggle');
+  const syncToggleLabel=()=>toggle.setAttribute('aria-label',root.dataset.theme==='light'?'Switch to dark mode':'Switch to light mode');
+  syncToggleLabel();
+  toggle.addEventListener('click',()=>{
+    const goLight=root.dataset.theme!=='light';
+    if(goLight) root.dataset.theme='light'; else delete root.dataset.theme;
+    try{localStorage.setItem('theme',goLight?'light':'dark')}catch(e){}
+    syncToggleLabel();
+  })
+
   // randomize each floating bond-line shape's speed, drift, and spin direction
   document.querySelectorAll('.hex-background .hex').forEach(el=>{
     const dur=(18+Math.random()*24).toFixed(1);              // 18s - 42s per shape

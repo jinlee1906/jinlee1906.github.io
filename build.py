@@ -76,6 +76,12 @@ def hex_background(count):
     return '    <div class="hex-background" aria-hidden="true">\n' + "\n".join(hexes) + '\n    </div>\n'
 
 
+THEME_TOGGLE = """  <button class="theme-toggle" type="button" aria-label="Switch to light mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+"""
+
 PAGE_ORNAMENTS = """    <div class="page-ornaments" aria-hidden="true">
       <span class="glow-ring ring-1"></span>
       <span class="glow-ring ring-2"></span>
@@ -94,12 +100,13 @@ def build_page(page):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{page["title"]}</title>
   <meta name="description" content="{page["description"]}">
+  <script>try{{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}}catch(e){{}}</script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="hexagons.css">
   <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="layout">
+{THEME_TOGGLE}  <div class="layout">
 {hex_background(page["hex_count"])}
 {ornaments}{sidebar}
     <main class="content">
