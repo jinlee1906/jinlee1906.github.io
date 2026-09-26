@@ -37,6 +37,12 @@ PAGES = [
     {"file": "tcl.html", "title": "Tartan Cultural League",
      "description": "Tartan Cultural League — Jin Lee.",
      "sidebar": "project", "hex_count": 6},
+    {"file": "rocket-command.html", "title": "Carnegie Mellon Rocket Command",
+     "description": "Carnegie Mellon Rocket Command — Jin Lee.",
+     "sidebar": "project", "hex_count": 6},
+    {"file": "solar-racing.html", "title": "Carnegie Mellon Solar Racing",
+     "description": "Carnegie Mellon Solar Racing — Jin Lee.",
+     "sidebar": "project", "hex_count": 6},
 ]
 
 SIDEBARS = {
