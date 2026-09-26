@@ -405,22 +405,25 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   top: 20px;
   right: 20px;
   z-index: 1000;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  height: 40px;
+  padding: 0 16px 0 13px;
+  border-radius: 999px;
   border: 1px solid rgba(var(--accent-rgb),0.35);
   background: var(--sidebar-bg);
   color: var(--accent-text);
+  font: 600 0.85rem/1 Lora, Georgia, serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   box-shadow: 0 4px 14px var(--shadow-color);
   transition: transform .2s ease, border-color .2s ease;
 }
 
 .theme-toggle:hover {
-  transform: rotate(20deg) scale(1.05);
+  transform: translateY(-2px);
   border-color: var(--accent);
 }
 
@@ -430,15 +433,37 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: transform .3s ease;
 }
 
-.theme-toggle .icon-moon { display: none; }
-:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
-:root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+.theme-toggle:hover svg {
+  transform: rotate(20deg);
+}
+
+/* show the icon + label for the current theme only */
+.theme-toggle .icon-sun,
+.theme-toggle .theme-label-light { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon,
+:root[data-theme="light"] .theme-toggle .theme-label-dark { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .theme-label-light { display: inline; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
