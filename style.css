@@ -543,3 +543,54 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   width: 100%;
   height: auto;
 }
+
+/* Experience / research entries: title + role on the left, dates + place on the right */
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--text-strong);
+}
+
+.entry-role {
+  margin: 4px 0 0;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.entry-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 0.92rem;
+  color: var(--accent-text);
+  white-space: nowrap;
+}
+
+.entry-meta span + span {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.entry-points {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.65;
+}
+
+.entry-points li + li {
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .entry-meta { align-items: flex-start; }
+}
