@@ -6,14 +6,17 @@ or after changing PAGES below. Output files are written to the repo root
 with the same filenames the site has always used, so nothing else about
 hosting or linking changes.
 """
+import html
 import pathlib
 
 ROOT = pathlib.Path(__file__).parent
 PARTIALS = ROOT / "partials"
 CONTENT = ROOT / "content"
+SITE_URL = "https://jinlee1906.github.io/"
+SOCIAL_IMAGE = SITE_URL + "images/og-card.png"
 
 PAGES = [
-    {"file": "index.html", "title": "JINLEE | Portfolio",
+    {"file": "index.html", "title": "Jin Lee | Chemical Engineering Portfolio",
      "description": "Jin Lee — chemical engineering student. Projects in battery design, soft robotics, CAD, and perfumery.",
      "sidebar": "home", "hex_count": 9, "ornaments": True},
     {"file": "perfume.html", "title": "Perfumery",
@@ -129,13 +132,31 @@ def build_page(page):
     content = (CONTENT / page["file"]).read_text()
     sidebar = SIDEBARS[page["sidebar"]]
     ornaments = PAGE_ORNAMENTS if page.get("ornaments") else ""
+    is_home = page["file"] == "index.html"
+    title = html.escape(page["title"] if is_home else f'{page["title"]} | Jin Lee')
+    description = html.escape(page["description"])
+    url = SITE_URL if is_home else SITE_URL + page["file"]
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{page["title"]}</title>
-  <meta name="description" content="{page["description"]}">
+  <title>{title}</title>
+  <meta name="description" content="{description}">
+  <meta name="author" content="Jin Lee">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="canonical" href="{url}">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jin Lee">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{SOCIAL_IMAGE}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <script>try{{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}}catch(e){{}}</script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="hexagons.css">
