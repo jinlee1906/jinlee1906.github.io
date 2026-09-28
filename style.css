@@ -242,10 +242,10 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   align-items: center;
 }
 
+/* logos show in their real brand colors */
 .skills-logos img {
   height: 52px;
   width: auto;
-  filter: var(--logo-filter);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -253,6 +253,53 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   transform: scale(1.08);
   opacity: 1;
 }
+
+/* black-only wordmarks (LaTeX) take the theme's text color so they stay visible on dark */
+.skills-logos img.logo-mono {
+  filter: var(--logo-filter);
+}
+
+/* wide wordmarks (COMSOL) would be huge at logo height */
+.skills-logos img.logo-wordmark {
+  height: 20px;
+}
+
+.lab-skills {
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.lab-skill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.lab-icon {
+  width: 60px;
+  height: 60px;
+  overflow: visible;
+  transition: transform 0.2s ease;
+}
+
+.lab-skill:hover .lab-icon {
+  transform: scale(1.08);
+}
+
+.lab-icon * {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lab-icon .hl { stroke: var(--accent); }
+.lab-icon .fl { fill: rgba(var(--accent-rgb),0.35); stroke: none; }
+.lab-icon .fl.hl { stroke: var(--accent); }
+.lab-icon .dash { stroke-dasharray: 3 3; }
+.lab-icon .faint { opacity: 0.5; }
 /* =========================================
    SIDEBAR ACHIEVEMENTS SECTION
    ========================================= */

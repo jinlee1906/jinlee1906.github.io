@@ -145,31 +145,79 @@
         <h2 class="section-title">Technical Skills</h2>
         <div><i><u>Simulation</u></i></div>
         <!-- Simulation & CAD Logos -->
-        <div class="skills-logos" style="gap: 28px;">
-          <!-- MATLAB always worked, we keep the real logo -->
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" alt="MATLAB">
-          <!-- The rest don't have stable icons, so we turn them into gold text -->
-          <span class="skill-tag">AutoCAD</span>
-          <span class="skill-tag">Fusion360</span>
-          <span class="skill-tag">COMSOL</span>
-          <span class="skill-tag">Aspen</span>
+        <div class="skills-logos">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" alt="MATLAB" title="MATLAB">
+          <img src="images/skills/autocad.png" alt="AutoCAD" title="AutoCAD">
+          <img src="images/skills/fusion360.png" alt="Fusion 360" title="Fusion 360">
+          <img class="logo-wordmark" src="images/skills/comsol.svg" alt="COMSOL" title="COMSOL">
+          <img src="images/skills/aspen.png" alt="Aspen" title="Aspen">
         </div>
         <div><i><u>Lab Skills</u></i></div>
-        <!-- Lab Skills -->
-        <div class="skills-logos" style="gap: 20px;">
-          <span class="skill-tag">GC</span>
-          <span class="skill-tag">AAS</span>
-          <span class="skill-tag">UV-Vis</span>
-          <span class="skill-tag">MS</span>
-          <span class="skill-tag">Titration</span>
+        <!-- Lab Skills: line illustrations (theme-colored via CSS) above each label -->
+        <div class="skills-logos lab-skills">
+          <div class="lab-skill">
+            <svg class="lab-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M25 16 V9 M20 9 H30"/>
+              <rect x="6" y="16" width="52" height="40" rx="4"/>
+              <rect x="11" y="22" width="28" height="28" rx="3"/>
+              <circle class="hl" cx="25" cy="36" r="9"/>
+              <circle class="hl" cx="25" cy="36" r="5"/>
+              <rect x="43" y="22" width="11" height="12" rx="1.5"/>
+              <polyline class="hl" points="44.5,31 46.5,31 48,25 49.5,31 52.5,31"/>
+              <circle cx="46" cy="44" r="1.6"/>
+              <circle cx="51" cy="44" r="1.6"/>
+            </svg>
+            <span class="skill-tag">GC</span>
+          </div>
+          <div class="lab-skill">
+            <svg class="lab-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="3" y="26" width="15" height="12" rx="6"/>
+              <path class="fl hl" d="M32 20 C26.5 27 26.5 34 29 40 H35 C37.5 34 37.5 27 32 20 Z"/>
+              <line class="hl dash" x1="18" y1="32" x2="50" y2="32"/>
+              <rect x="26" y="40" width="12" height="4" rx="1"/>
+              <path d="M32 44 V56 M25 56 H39"/>
+              <rect x="50" y="24" width="10" height="16" rx="2"/>
+            </svg>
+            <span class="skill-tag">AAS</span>
+          </div>
+          <div class="lab-skill">
+            <svg class="lab-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="9" cy="32" r="5"/>
+              <line class="hl" x1="14" y1="32" x2="24" y2="32"/>
+              <rect class="fl" x="24" y="28" width="14" height="20"/>
+              <rect x="24" y="18" width="14" height="30" rx="1.5"/>
+              <line class="hl faint" x1="38" y1="32" x2="50" y2="32"/>
+              <rect x="50" y="25" width="10" height="14" rx="2"/>
+            </svg>
+            <span class="skill-tag">UV-Vis</span>
+          </div>
+          <div class="lab-skill">
+            <svg class="lab-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M8 8 V54 H58"/>
+              <path class="hl" d="M16 54 V40 M22 54 V30 M27 54 V46 M33 54 V14 M39 54 V36 M45 54 V24 M51 54 V44"/>
+            </svg>
+            <span class="skill-tag">MS</span>
+          </div>
+          <div class="lab-skill">
+            <svg class="lab-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <rect class="fl" x="28" y="14" width="8" height="20"/>
+              <rect x="28" y="4" width="8" height="30" rx="1.5"/>
+              <path d="M28 10 H31 M28 16 H31 M28 22 H31"/>
+              <path d="M24 34 H40 M32 34 V40"/>
+              <path class="fl hl" d="M32 43 C30.5 45 30.5 46.5 32 46.5 C33.5 46.5 33.5 45 32 43 Z"/>
+              <polygon class="fl" points="22,57 42,57 48,61 16,61"/>
+              <path d="M28 48 V53 L16 61 H48 L36 53 V48"/>
+            </svg>
+            <span class="skill-tag">Titration</span>
+          </div>
         </div>
         <div><i><u>Programming and Markup</u></i></div>
         <!-- Programming & Markup Logos -->
         <div class="skills-logos">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" alt="MATLAB">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/latex/latex-original.svg" alt="LaTeX">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" title="Python">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" alt="MATLAB" title="MATLAB">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" title="HTML">
+          <img class="logo-mono" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/latex/latex-original.svg" alt="LaTeX" title="LaTeX">
         </div>
         <!-- Relevant Coursework -->
         <p><strong>Relevant Coursework:</strong> Heat & Mass Transfer, Optimization and Machine Learning, Mathematical Methods, Fluid Mechanics, Molecular Foundations</p>
