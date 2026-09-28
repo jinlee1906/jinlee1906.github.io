@@ -635,3 +635,31 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   }
   .will-reveal { opacity: 1; transform: none; }
 }
+
+/* Section pets: tiny pixel blobs (pets.js) sitting on each card's top edge */
+.section-pet {
+  position: absolute;
+  left: 12px;
+  top: -49px;               /* canvas is 52px tall; body's bottom row lands on the card edge */
+  width: 48px;
+  height: 52px;
+  z-index: 2;
+  pointer-events: none;     /* never blocks clicks on text around it */
+  will-change: transform;
+}
+
+.section-pet canvas {
+  display: block;
+  width: 48px;
+  height: 52px;
+  image-rendering: pixelated;
+}
+
+.section-pet-hit {          /* hover target covers just the body */
+  position: absolute;
+  left: 10px;
+  bottom: 2px;
+  width: 28px;
+  height: 24px;
+  pointer-events: auto;
+}
