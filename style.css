@@ -658,43 +658,6 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   .will-reveal { opacity: 1; transform: none; }
 }
 
-/* Section pets: pixel blobs (pets.js) roaming each card's edges, boxes, and text lines.
-   They live in one layer over the content column; pets.js positions them with transforms. */
-.content { position: relative; }
-
-.pet-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 3;               /* above the cards (z-index 1) */
-  overflow: hidden;         /* a blob climbing a card's outer wall never causes sideways scroll */
-  pointer-events: none;     /* never blocks clicks on text around it */
-}
-
-.section-pet {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 72px;
-  height: 78px;
-  will-change: transform;
-}
-
-.section-pet canvas {
-  display: block;
-  width: 72px;
-  height: 78px;
-  image-rendering: pixelated;
-}
-
-.section-pet-hit {          /* hover target covers just the body */
-  position: absolute;
-  left: 13px;
-  bottom: 3px;
-  width: 46px;
-  height: 34px;
-  pointer-events: auto;
-}
-
 /* =========================================
    STORY VIEW (default): no sidebar; every section is an open, full-screen chapter.
    Sidebar view (data-layout="sidebar") keeps the original card layout.

@@ -186,7 +186,6 @@ def build_page(page):
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="hexagons.css">
   <script src="script.js" defer></script>
-  <script src="pets.js" defer></script>
 </head>
 <body>
 {VIEW_CONTROLS}  <div class="layout">
