@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       e.preventDefault();
       const id=a.getAttribute('href').slice(1);
       const el=document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+      const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(el) el.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
     })
   })
 

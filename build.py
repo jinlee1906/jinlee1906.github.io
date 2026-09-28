@@ -6,6 +6,7 @@ or after changing PAGES below. Output files are written to the repo root
 with the same filenames the site has always used, so nothing else about
 hosting or linking changes.
 """
+import datetime
 import html
 import pathlib
 
@@ -128,6 +129,18 @@ PAGE_ORNAMENTS = """    <div class="page-ornaments" aria-hidden="true">
 """
 
 
+SITE_FOOTER = f"""    <footer class="site-footer">
+      <span>&copy; {datetime.date.today().year} Jin Lee</span>
+      <span class="footer-links">
+        <a href="mailto:jinlee2@andrew.cmu.edu">Email</a>
+        <a href="https://www.linkedin.com/in/wenjinlee/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/jin1906" target="_blank" rel="noopener">GitHub</a>
+        <a href="files/Jin_Lee_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </span>
+    </footer>
+"""
+
+
 def build_page(page):
     content = (CONTENT / page["file"]).read_text()
     sidebar = SIDEBARS[page["sidebar"]]
@@ -158,6 +171,9 @@ def build_page(page):
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <script>try{{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}}catch(e){{}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="hexagons.css">
   <script src="script.js" defer></script>
@@ -167,7 +183,7 @@ def build_page(page):
 {hex_background(page["hex_count"])}
 {ornaments}{sidebar}
     <main class="content">
-{content}    </main>
+{content}{SITE_FOOTER}    </main>
   </div>
 </body>
 </html>
