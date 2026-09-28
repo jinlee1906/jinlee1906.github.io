@@ -25,7 +25,10 @@
 
 .hex svg.bond-svg line,
 .hex svg.bond-svg polyline,
-.hex svg.bond-svg polygon {
+.hex svg.bond-svg polygon,
+.hex svg.bond-svg path,
+.hex svg.bond-svg rect,
+.hex svg.bond-svg circle {
   fill: none;
   stroke: var(--accent);
   stroke-width: 2.5;

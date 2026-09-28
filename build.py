@@ -51,31 +51,58 @@ SIDEBARS = {
 }
 
 
-# Skeletal-formula style motifs (plain bond lines, no fill), each in a
-# 0-0-100-100 viewBox so they drop into any .hex-N sized box.
-MOLECULES = [
-    # zigzag alkane chain (hexane-like)
+# Line-art background motifs (strokes only, no fill), each in a 0-0-100-100
+# viewBox so they drop into any .hex-N sized box. Skeletal-formula molecules
+# are interleaved with simplified process flow diagram (PFD) symbols so every
+# page, even one showing only the first 6, gets a mix of both.
+MOTIFS = [
+    # molecule: zigzag alkane chain (hexane-like)
     '<polyline points="10,68 29,40 48,68 67,40 86,68"/>',
-    # branched chain with a methyl branch
-    '<polyline points="12,78 30,52 48,78 66,52 84,78"/><line x1="30" y1="52" x2="19" y2="26"/>',
-    # plain ring (cyclohexane)
+    # PFD: distillation column with feed, overhead condenser, reflux drum,
+    # reflux return, product draw, and bottoms
+    '<rect x="38" y="20" width="16" height="66" rx="8"/>'
+    '<path d="M14 50 H38"/><polyline points="33,46 38,50 33,54"/>'
+    '<path d="M46 20 V10 H66"/><circle cx="72" cy="10" r="6"/>'
+    '<path d="M72 16 V34"/><rect x="62" y="34" width="20" height="10" rx="5"/>'
+    '<path d="M72 44 V56 H54"/><polyline points="59,52 54,56 59,60"/>'
+    '<path d="M82 39 H94"/><polyline points="89,35 94,39 89,43"/>'
+    '<path d="M46 86 V94 H70"/><polyline points="65,90 70,94 65,98"/>',
+    # molecule: plain ring (cyclohexane)
     '<polygon points="85,50 67.5,19.7 32.5,19.7 15,50 32.5,80.3 67.5,80.3"/>',
-    # ring with one double bond (cyclohexene)
-    '<polygon points="85,50 67.5,19.7 32.5,19.7 15,50 32.5,80.3 67.5,80.3"/>'
-    '<line x1="78" y1="52" x2="63.5" y2="26.5"/>',
-    # triple bond chain (hexyne-like)
+    # PFD: feed tank draining to a centrifugal pump
+    '<path d="M26 4 V18"/><polyline points="22,13 26,18 30,13"/>'
+    '<rect x="14" y="18" width="24" height="46" rx="10"/>'
+    '<path d="M26 64 V78 H44"/><circle cx="54" cy="78" r="10"/>'
+    '<path d="M54 68 H72 V30 H90"/><polyline points="85,26 90,30 85,34"/>',
+    # molecule: triple bond chain (hexyne-like)
     '<line x1="10" y1="76" x2="28" y2="50"/>'
     '<line x1="28" y1="46" x2="72" y2="46"/>'
     '<line x1="28" y1="50" x2="72" y2="50"/>'
     '<line x1="28" y1="54" x2="72" y2="54"/>'
     '<line x1="72" y1="50" x2="90" y2="76"/>',
+    # PFD: heat exchanger (tube stream zigzag, shell stream top to bottom)
+    '<circle cx="50" cy="50" r="18"/>'
+    '<polyline points="8,50 38,50 43,41 50,59 57,41 62,50 92,50"/><polyline points="87,46 92,50 87,54"/>'
+    '<path d="M50 8 V32"/><polyline points="46,27 50,32 54,27"/>'
+    '<path d="M50 68 V92"/><polyline points="46,87 50,92 54,87"/>',
+    # molecule: branched chain with a methyl branch
+    '<polyline points="12,78 30,52 48,78 66,52 84,78"/><line x1="30" y1="52" x2="19" y2="26"/>',
+    # PFD: stirred tank reactor (motor, shaft, impeller, feed in, product out)
+    '<rect x="43" y="6" width="14" height="8" rx="2"/>'
+    '<rect x="26" y="26" width="48" height="56" rx="10"/>'
+    '<path d="M50 14 V64"/><path d="M40 64 H60"/>'
+    '<path d="M8 36 H26"/><polyline points="21,32 26,36 21,40"/>'
+    '<path d="M74 72 H92"/><polyline points="87,68 92,72 87,76"/>',
+    # molecule: ring with one double bond (cyclohexene)
+    '<polygon points="85,50 67.5,19.7 32.5,19.7 15,50 32.5,80.3 67.5,80.3"/>'
+    '<line x1="78" y1="52" x2="63.5" y2="26.5"/>',
 ]
 
 
 def hex_background(count):
     hexes = []
     for i in range(1, count + 1):
-        motif = MOLECULES[(i - 1) % len(MOLECULES)]
+        motif = MOTIFS[(i - 1) % len(MOTIFS)]
         hexes.append(
             f'      <div class="hex hex-{i}"><svg viewBox="0 0 100 100" class="bond-svg">{motif}</svg></div>'
         )
