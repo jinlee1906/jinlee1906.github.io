@@ -514,3 +514,32 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   white-space: nowrap;
   border: 0;
 }
+
+/* Resume section: action buttons + clickable page preview */
+.resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 20px 0 24px;
+}
+
+.resume-preview {
+  display: block;
+  max-width: 480px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb),0.25);
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.resume-preview:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(var(--accent-rgb),0.18);
+}
+
+.resume-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
