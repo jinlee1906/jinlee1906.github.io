@@ -114,12 +114,21 @@ def hex_background(count):
 
 
 # Icon + label show the *current* theme; CSS picks which pair is visible.
-THEME_TOGGLE = """  <button class="theme-toggle" type="button">
-    <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    <span class="theme-label theme-label-dark">Dark mode<span class="sr-only">, switch to light mode</span></span>
-    <span class="theme-label theme-label-light">Light mode<span class="sr-only">, switch to dark mode</span></span>
-  </button>
+# Top-right controls. Each pill shows its *current* state; CSS picks which icon/label is visible.
+VIEW_CONTROLS = """  <div class="view-controls">
+    <button class="view-toggle layout-toggle" type="button">
+      <svg class="icon-story" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg>
+      <svg class="icon-sidebar" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      <span class="view-label layout-label layout-label-story">Story view<span class="sr-only">, switch to sidebar view</span></span>
+      <span class="view-label layout-label layout-label-sidebar">Sidebar view<span class="sr-only">, switch to story view</span></span>
+    </button>
+    <button class="view-toggle theme-toggle" type="button">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <span class="view-label theme-label theme-label-dark">Dark mode<span class="sr-only">, switch to light mode</span></span>
+      <span class="view-label theme-label theme-label-light">Light mode<span class="sr-only">, switch to dark mode</span></span>
+    </button>
+  </div>
 """
 
 PAGE_ORNAMENTS = """    <div class="page-ornaments" aria-hidden="true">
@@ -170,7 +179,7 @@ def build_page(page):
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <script>try{{if(localStorage.getItem('theme')==='light')document.documentElement.dataset.theme='light'}}catch(e){{}}</script>
+  <script>(function(d){{d.dataset.layout='story';try{{if(localStorage.getItem('theme')==='light')d.dataset.theme='light';if(localStorage.getItem('layout')==='sidebar')d.dataset.layout='sidebar'}}catch(e){{}}}})(document.documentElement)</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
@@ -180,7 +189,7 @@ def build_page(page):
   <script src="pets.js" defer></script>
 </head>
 <body>
-{THEME_TOGGLE}  <div class="layout">
+{VIEW_CONTROLS}  <div class="layout">
 {hex_background(page["hex_count"])}
 {ornaments}{sidebar}
     <main class="content">

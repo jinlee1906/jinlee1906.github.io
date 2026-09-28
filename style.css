@@ -446,12 +446,17 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   padding: 20px;
   border-radius: 12px;
 }
-/* Light/dark theme toggle (fixed, top-right on every page) */
-.theme-toggle {
+/* View controls (fixed, top-right on every page): story/sidebar layout + light/dark theme */
+.view-controls {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+
+.view-toggle {
   height: 40px;
   padding: 0 16px 0 13px;
   border-radius: 999px;
@@ -469,17 +474,17 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   transition: transform .2s ease, border-color .2s ease;
 }
 
-.theme-toggle:hover {
+.view-toggle:hover {
   transform: translateY(-2px);
   border-color: var(--accent);
 }
 
-.theme-toggle:focus-visible {
+.view-toggle:focus-visible {
   outline: 3px solid rgba(var(--accent-rgb),0.4);
   outline-offset: 3px;
 }
 
-.theme-toggle svg {
+.view-toggle svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
@@ -495,13 +500,30 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   transform: rotate(20deg);
 }
 
-/* show the icon + label for the current theme only */
+/* each toggle shows the icon + label for the current state only */
 .theme-toggle .icon-sun,
 .theme-toggle .theme-label-light { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-moon,
 :root[data-theme="light"] .theme-toggle .theme-label-dark { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
 :root[data-theme="light"] .theme-toggle .theme-label-light { display: inline; }
+
+.layout-toggle .icon-sidebar,
+.layout-toggle .layout-label-sidebar { display: none; }
+:root[data-layout="sidebar"] .layout-toggle .icon-story,
+:root[data-layout="sidebar"] .layout-toggle .layout-label-story { display: none; }
+:root[data-layout="sidebar"] .layout-toggle .icon-sidebar { display: block; }
+:root[data-layout="sidebar"] .layout-toggle .layout-label-sidebar { display: inline; }
+
+/* phones: icon-only pills; labels stay readable to screen readers */
+@media (max-width: 560px) {
+  .view-controls { top: 12px; right: 12px; gap: 8px; }
+  .view-toggle { padding: 0 11px; }
+  .view-label {
+    position: absolute; width: 1px; height: 1px; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+}
 
 .sr-only {
   position: absolute;
@@ -636,30 +658,137 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   .will-reveal { opacity: 1; transform: none; }
 }
 
-/* Section pets: tiny pixel blobs (pets.js) sitting on each card's top edge */
+/* Section pets: pixel blobs (pets.js) roaming each card's edges, boxes, and text lines.
+   They live in one layer over the content column; pets.js positions them with transforms. */
+.content { position: relative; }
+
+.pet-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;               /* above the cards (z-index 1) */
+  overflow: hidden;         /* a blob climbing a card's outer wall never causes sideways scroll */
+  pointer-events: none;     /* never blocks clicks on text around it */
+}
+
 .section-pet {
   position: absolute;
-  left: 12px;
-  top: -49px;               /* canvas is 52px tall; body's bottom row lands on the card edge */
-  width: 48px;
-  height: 52px;
-  z-index: 2;
-  pointer-events: none;     /* never blocks clicks on text around it */
+  left: 0;
+  top: 0;
+  width: 72px;
+  height: 78px;
   will-change: transform;
 }
 
 .section-pet canvas {
   display: block;
-  width: 48px;
-  height: 52px;
+  width: 72px;
+  height: 78px;
   image-rendering: pixelated;
 }
 
 .section-pet-hit {          /* hover target covers just the body */
   position: absolute;
-  left: 10px;
-  bottom: 2px;
-  width: 28px;
-  height: 24px;
+  left: 13px;
+  bottom: 3px;
+  width: 46px;
+  height: 34px;
   pointer-events: auto;
+}
+
+/* =========================================
+   STORY VIEW (default): no sidebar; every section is an open, full-screen chapter.
+   Sidebar view (data-layout="sidebar") keeps the original card layout.
+   ========================================= */
+:root[data-layout="story"] .layout { grid-template-columns: 1fr; }
+:root[data-layout="story"] .sidebar { display: none; }
+:root[data-layout="story"] .section-divider { display: none; }
+:root[data-layout="story"] .hex-background { opacity: 0.45; }   /* quieter behind open text */
+
+:root[data-layout="story"] main .panel {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 14vh 0 10vh;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* the older #research/#education min-height rule outranks the class selector above */
+:root[data-layout="story"] #research,
+:root[data-layout="story"] #education { min-height: 100vh; }
+
+/* chapter heading: big serif title over a thin rule */
+:root[data-layout="story"] main .panel > h1 {
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+  line-height: 1.1;
+  padding-bottom: 14px;
+  margin: 0 0 40px;
+  border-bottom: 1px solid rgba(var(--overlay-rgb),0.28);
+}
+
+/* =========================================
+   ABOUT: photo beside a "Hello," story (both views)
+   ========================================= */
+.about-story {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.8fr) 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.about-photo { margin: 0; }
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center 62%;
+  border-radius: 6px;
+}
+
+.about-hello {
+  margin: 0 0 18px;
+  font-size: clamp(2rem, 3.6vw, 2.7rem);
+  font-weight: 400;
+  color: var(--text-strong);
+}
+
+.about-text p {
+  margin: 0 0 16px;
+  line-height: 1.75;
+}
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  margin-top: 24px;
+}
+
+.about-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: color .2s ease;
+}
+
+.about-links a:hover { color: var(--accent-text); }
+
+.about-links svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .about-story { grid-template-columns: 1fr; gap: 28px; }
+  .about-photo { max-width: 340px; }
 }

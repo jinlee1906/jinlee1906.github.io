@@ -43,6 +43,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     try{localStorage.setItem('theme',goLight?'light':'dark')}catch(e){}
   })
 
+  // story view (full-screen chapters, no sidebar) vs sidebar view; saved choice is applied in <head>
+  document.querySelector('.layout-toggle').addEventListener('click',()=>{
+    const next=root.dataset.layout==='sidebar'?'story':'sidebar';
+    root.dataset.layout=next;
+    try{localStorage.setItem('layout',next)}catch(e){}
+  })
+
   // randomize each floating bond-line shape's speed, drift, and spin direction
   document.querySelectorAll('.hex-background .hex').forEach(el=>{
     const dur=(18+Math.random()*24).toFixed(1);              // 18s - 42s per shape
