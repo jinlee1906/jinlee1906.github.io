@@ -7,6 +7,7 @@ with the same filenames the site has always used, so nothing else about
 hosting or linking changes.
 """
 import datetime
+import hashlib
 import html
 import pathlib
 
@@ -15,6 +16,11 @@ PARTIALS = ROOT / "partials"
 CONTENT = ROOT / "content"
 SITE_URL = "https://jinlee1906.github.io/"
 SOCIAL_IMAGE = SITE_URL + "images/og-card.png"
+
+
+def asset(name):
+    """Local CSS/JS URL with a content fingerprint, so a deploy never pairs new HTML with a cached old file."""
+    return f"{name}?v={hashlib.sha1((ROOT / name).read_bytes()).hexdigest()[:8]}"
 
 PAGES = [
     {"file": "index.html", "title": "Jin Lee | Chemical Engineering Portfolio",
@@ -183,9 +189,10 @@ def build_page(page):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="hexagons.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="{asset('style.css')}">
+  <link rel="stylesheet" href="{asset('hexagons.css')}">
+  <script src="{asset('script.js')}" defer></script>
+  <script src="{asset('story.js')}" defer></script>
 </head>
 <body>
 {VIEW_CONTROLS}  <div class="layout">
