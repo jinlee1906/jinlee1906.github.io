@@ -181,6 +181,15 @@ SITE_FOOTER = f"""    <footer class="site-footer">
 """
 
 
+LOADER = (PARTIALS / "loader.html").read_text()
+# homepage only: show the loading screen on the first visit of a browser session
+LOADER_HEAD_SCRIPT = (
+    "<script>(function(d){try{if(!sessionStorage.getItem('loaded')"
+    "&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('is-loading');"
+    "sessionStorage.setItem('loaded','1')}}catch(e){}})(document.documentElement)</script>\n  "
+)
+
+
 def build_page(page):
     content = (CONTENT / page["file"]).read_text()
     if "<!-- @project-chapters -->" in content:
@@ -191,6 +200,7 @@ def build_page(page):
     title = html.escape(page["title"] if is_home else f'{page["title"]} | Jin Lee')
     description = html.escape(page["description"])
     url = SITE_URL if is_home else SITE_URL + page["file"]
+    loader_css = f'<link rel="stylesheet" href="{asset("loader.css")}">' if is_home else ""
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,16 +223,17 @@ def build_page(page):
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <script>(function(d){{d.dataset.layout='story';try{{if(localStorage.getItem('theme')==='light')d.dataset.theme='light';if(localStorage.getItem('layout')==='sidebar')d.dataset.layout='sidebar'}}catch(e){{}}}})(document.documentElement)</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  {LOADER_HEAD_SCRIPT if is_home else ""}<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
   <link rel="stylesheet" href="{asset('style.css')}">
   <link rel="stylesheet" href="{asset('hexagons.css')}">
+  {loader_css}
   <script src="{asset('script.js')}" defer></script>
   <script src="{asset('story.js')}" defer></script>
 </head>
 <body>
-{VIEW_CONTROLS}  <div class="layout">
+{LOADER if is_home else ""}{VIEW_CONTROLS}  <div class="layout">
 {hex_background(page["hex_count"])}
 {ornaments}{sidebar}
     <main class="content">

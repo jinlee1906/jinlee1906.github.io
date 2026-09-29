@@ -1,0 +1,99 @@
+  <!-- ===== LOADING SCREEN (homepage, once per visit): liquid runs through a process flow
+       diagram in process order while the percentage counts up, then the screen fades out.
+       Shown only when the <head> script adds .is-loading; styles in loader.css. ===== -->
+  <div class="loader" role="status" aria-label="Loading">
+    <p class="loader-title">Jin Lee <span>· Chemical Engineering</span></p>
+    <svg class="pfd" viewBox="60 230 1900 830" aria-hidden="true">
+      <defs>
+        <marker id="pfd-arrow" viewBox="0 0 14 10" refX="14" refY="5" markerWidth="30" markerHeight="22" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L14,5 L0,10 Z"/>
+        </marker>
+        <clipPath id="clip-tank"><path d="M103,390 C103,321 365,321 365,390 V768 C365,840 103,840 103,768 Z"/></clipPath>
+        <clipPath id="clip-reactor"><path d="M1160,437 C1160,354 1425,354 1425,437 V693 C1425,780 1160,780 1160,693 Z"/></clipPath>
+        <clipPath id="clip-separator"><path d="M1572,470 C1572,414 1677,414 1677,470 V645 C1677,701 1572,701 1572,645 Z"/></clipPath>
+      </defs>
+
+      <!-- liquid inside the vessels (rises from the bottom) -->
+      <rect class="level" clip-path="url(#clip-tank)" x="103" y="338" width="262" height="484" style="--d:0s;--t:.7s;--level:.78"/>
+      <circle class="pump-fill" cx="582" cy="727" r="58" style="--d:.95s"/>
+      <rect class="level" clip-path="url(#clip-reactor)" x="1160" y="375" width="265" height="383" style="--d:2.45s;--t:.8s;--level:.62"/>
+      <rect class="level" clip-path="url(#clip-separator)" x="1572" y="428" width="105" height="260" style="--d:3.35s;--t:.5s;--level:.55"/>
+
+      <!-- equipment outlines -->
+      <g class="pfd-lines">
+        <path d="M103,390 C103,321 365,321 365,390 V768 C365,840 103,840 103,768 Z M103,390 H365 M103,768 H365"/>
+        <circle cx="582" cy="727" r="58"/>
+        <path d="M582,669 H652 V688 H638 M545,772 L522,800 H642 L619,772"/>
+        <path d="M747,515 C712,515 697,535 697,559 C697,583 712,603 747,603 M987,515 C1022,515 1040,535 1040,559 C1040,583 1022,603 987,603"/>
+        <rect x="741" y="502" width="14" height="111"/>
+        <rect x="981" y="502" width="14" height="111"/>
+        <path d="M755,515 H981 M755,603 H981"/>
+        <path class="tube" d="M755,528 H981 M755,541 H981 M755,554 H981 M755,567 H981 M755,580 H981 M755,591 H981"/>
+        <path d="M1160,437 C1160,354 1425,354 1425,437 V693 C1425,780 1160,780 1160,693 Z M1160,437 H1425 M1160,693 H1425"/>
+        <rect x="1268" y="284" width="52" height="69" rx="6"/>
+        <path d="M1258,298 H1330 M1258,339 H1330 M1294,353 V655"/>
+        <g class="impeller" style="--d:2.45s">
+          <ellipse cx="1260" cy="655" rx="35" ry="14"/>
+          <ellipse cx="1328" cy="655" rx="35" ry="14"/>
+        </g>
+        <path d="M1572,470 C1572,414 1677,414 1677,470 V645 C1677,701 1572,701 1572,645 Z M1572,470 H1677 M1572,645 H1677"/>
+        <path d="M830,948 L908,992 V948 L830,992 Z M869,970 V931 M845,931 A24,24 0 0 1 893,931 Z"/>
+      </g>
+
+      <!-- pipes -->
+      <g class="pfd-pipes">
+        <path marker-end="url(#pfd-arrow)" d="M365,728 H518"/>
+        <path marker-end="url(#pfd-arrow)" d="M530,727 H590"/>
+        <path marker-end="url(#pfd-arrow)" d="M582,669 V559 H695"/>
+        <path marker-end="url(#pfd-arrow)" d="M652,677 H787 V606"/>
+        <path marker-end="url(#pfd-arrow)" d="M1040,559 H1158"/>
+        <path marker-end="url(#pfd-arrow)" d="M950,613 V675 H1158"/>
+        <path marker-end="url(#pfd-arrow)" d="M1425,559 H1570"/>
+        <path marker-end="url(#pfd-arrow)" d="M1625,426 V320 H1898"/>
+        <path marker-end="url(#pfd-arrow)" d="M1625,690 V970 H910"/>
+        <path marker-end="url(#pfd-arrow)" d="M830,970 H438 V731"/>
+      </g>
+
+      <!-- liquid running through the pipes, in process order -->
+      <g class="pfd-flow">
+        <path pathLength="1" d="M365,728 H522" style="--d:.55s;--t:.4s"/>
+        <path pathLength="1" d="M582,669 V559 H697" style="--d:1.15s;--t:.45s"/>
+        <path pathLength="1" d="M652,677 H787 V613" style="--d:1.15s;--t:.45s"/>
+        <path pathLength="1" d="M755,528 H981 M755,541 H981 M755,554 H981 M755,567 H981 M755,580 H981 M755,591 H981" style="--d:1.6s;--t:.5s"/>
+        <path pathLength="1" d="M1040,559 H1160" style="--d:2.1s;--t:.35s"/>
+        <path pathLength="1" d="M950,613 V675 H1160" style="--d:2.1s;--t:.35s"/>
+        <path pathLength="1" d="M1425,559 H1572" style="--d:3.05s;--t:.3s"/>
+        <path pathLength="1" d="M1625,428 V320 H1900" style="--d:3.8s;--t:.55s"/>
+        <path pathLength="1" d="M1625,688 V970 H438 V728" style="--d:3.8s;--t:.75s"/>
+      </g>
+
+      <g class="pfd-labels">
+        <text x="234" y="570">FEED TANK</text><text x="234" y="612">(T-100)</text>
+        <text x="582" y="846">PUMP</text><text x="582" y="886">(P-101)</text>
+        <text x="868" y="410">HEAT</text><text x="868" y="450">EXCHANGER</text><text x="868" y="490">(E-102)</text>
+        <text x="1294" y="818">REACTOR</text><text x="1294" y="858">(R-103)</text>
+        <text x="1798" y="548">SEPARATOR</text><text x="1798" y="590">(V-104)</text>
+        <text x="1763" y="262">PRODUCT</text><text x="1763" y="302">STREAM</text>
+        <text x="1120" y="1026">RECYCLE STREAM</text>
+      </g>
+    </svg>
+    <div class="loader-progress">
+      <p><span>Loading</span> <span class="loader-pct">0%</span></p>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var root = document.documentElement, loader = document.querySelector('.loader');
+      if (!root.classList.contains('is-loading')) { loader.remove(); return; }
+      var pct = loader.querySelector('.loader-pct'), bar = loader.querySelector('.loader-bar span');
+      var start = performance.now(), FILL = 4500, END = 5300;
+      (function tick(now) {
+        var p = Math.min(1, (now - start) / FILL);
+        pct.textContent = Math.round(p * 100) + '%';
+        bar.style.transform = 'scaleX(' + p + ')';
+        if (p < 1) requestAnimationFrame(tick);
+      })(start);
+      setTimeout(function () { root.classList.remove('is-loading'); loader.remove(); }, END);
+    })();
+  </script>

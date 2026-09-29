@@ -1,0 +1,99 @@
+/* Loading screen (homepage, once per visit; markup in partials/loader.html).
+   Timeline, ~5s: the feed tank fills, liquid runs tank -> pump -> heat exchanger -> reactor
+   (agitator spins) -> separator -> product + recycle streams, then the screen fades out. */
+html.is-loading { overflow: hidden; }
+.loader { display: none; }
+html.is-loading .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+  padding: 24px 4vw;
+  background: var(--page-bg);
+  color: var(--text);
+  animation: loaderOut 0.7s ease 4.6s forwards;
+}
+@keyframes loaderOut { to { opacity: 0; visibility: hidden; } }
+
+.loader-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+.loader-title span { color: var(--muted); font-size: 0.6em; letter-spacing: 0.18em; }
+
+.pfd { width: min(100%, 1250px); max-height: 66vh; overflow: visible; }
+.pfd-lines, .pfd-pipes {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+.pfd marker path { fill: var(--text); }
+.pfd-lines .tube { stroke-width: 3; opacity: 0.7; }
+.pfd-labels text {
+  fill: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 34px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+/* liquid */
+.level, .pump-fill { fill: var(--accent); }
+.level {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: levelUp var(--t) cubic-bezier(.3,.6,.3,1) var(--d) forwards;
+}
+@keyframes levelUp { to { transform: scaleY(var(--level)); } }
+.pump-fill { opacity: 0; animation: pumpFill 0.3s ease var(--d) forwards; }
+@keyframes pumpFill { to { opacity: 0.85; } }
+
+.pfd-flow path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 11;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: flow var(--t) linear var(--d) forwards;
+}
+@keyframes flow { to { stroke-dashoffset: 0; } }
+
+/* agitator: blades swing through the shaft like a spinning impeller seen side-on */
+.impeller {
+  transform-box: view-box;
+  transform-origin: 1294px 655px;
+  animation: impeller 0.55s ease-in-out var(--d) infinite;
+}
+@keyframes impeller { 50% { transform: scaleX(-1); } }
+
+.loader-progress { width: min(100%, 520px); text-align: center; }
+.loader-progress p {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.loader-pct { color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.loader-bar {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(var(--overlay-rgb), 0.12);
+  overflow: hidden;
+}
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
