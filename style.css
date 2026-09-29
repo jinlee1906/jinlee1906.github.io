@@ -916,7 +916,8 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   border-radius: 0;
   transition: transform 0.6s ease, opacity 0.9s ease;
 }
-.project-media:hover img { transform: scale(1.06) rotate(1deg); }
+.project-media:hover img,
+.project-media:hover video { transform: scale(1.06) rotate(1deg); }
 
 /* drawings and screenshots sit whole on a soft panel instead of being cropped */
 .project-media.is-drawing { background: #fff; padding: 12px; }
@@ -985,6 +986,7 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 .project-page.will-reveal .project-media { clip-path: inset(0 100% 100% 0); }
 .project-page.in-view .project-media { animation: aboutImageIn 1.6s cubic-bezier(.65,0,.35,1) 0.3s both; }
 .project-page.in-view .project-media img,
+.project-page.in-view .project-media video,
 .project-page.in-view .project-art { animation: aboutImageSettle 2.4s cubic-bezier(.2,.7,.2,1) 0.3s backwards; }
 .project-page.will-reveal .project-text > * {
   opacity: 0;
@@ -1023,3 +1025,60 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   .project-page .project-media { clip-path: none; }
   .project-page .project-text > * { opacity: 1; transform: none; }
 }
+
+/* =========================================
+   FULL-SCREEN PAGES (story view): every chapter fits one screen, so each scroll step in
+   story.js lands on a whole page. Tighter chapter padding, a wider column, and compact
+   About/Education layouts keep the taller sections inside 100vh.
+   ========================================= */
+:root[data-layout="story"] main .panel { padding: 10vh 0 7vh; max-width: 1100px; }
+:root[data-layout="story"] main .panel > h1 { margin-bottom: 32px; }
+:root[data-layout="story"] main .about-story { grid-template-columns: minmax(200px, 0.7fr) 1.3fr; align-items: center; }
+:root[data-layout="story"] main .about-photo img { max-height: 66vh; }
+:root[data-layout="story"] main .about-text p { line-height: 1.65; margin-bottom: 12px; }
+:root[data-layout="story"] main .about-hello { margin-bottom: 12px; }
+:root[data-layout="story"] main .about-links { margin-top: 16px; }
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 48px;
+}
+.edu-col > .edu-school:first-child { margin-top: 0; }
+:root[data-layout="story"] #education li { margin-bottom: 2px; }
+@media (max-width: 900px) {
+  .edu-grid { grid-template-columns: 1fr; }
+}
+
+/* the backdrop crossfade keeps pace with the longer page glide */
+.story-backdrop { transition: opacity 1.2s ease, background-color 1.2s ease; }
+
+@media (hover: none) {
+  :root[data-layout="story"] main .panel { scroll-snap-align: start; }
+}
+
+/* short windows (small laptops, browser chrome): tighten further so pages still fit */
+@media (min-width: 769px) and (max-height: 780px) {
+  :root[data-layout="story"] main .panel,
+  :root[data-layout="story"] main .project-chapter { padding: 6vh 0 4vh; }
+  :root[data-layout="story"] main .panel > h1 { font-size: clamp(2.2rem, 4.6vw, 3.4rem); margin-bottom: 20px; padding-bottom: 10px; }
+  :root[data-layout="story"] main .panel p,
+  :root[data-layout="story"] main .panel li { font-size: 0.93rem; line-height: 1.55; }
+  :root[data-layout="story"] main .project-page .project-text > h2 { margin: 14px 0 6px; font-size: 1.25rem; }
+  :root[data-layout="story"] main .project-page .project-text .project-summary { font-size: 1.02rem; }
+  :root[data-layout="story"] main .project-media.is-art { width: min(100%, 300px); }
+  :root[data-layout="story"] main .project-grid { gap: 14px; }
+  :root[data-layout="story"] main .project-card { padding: 16px 18px; }
+}
+
+/* portrait phone video: sized from its 9:16 shape so the frame is right before it loads */
+.project-media.is-video video {
+  display: block;
+  height: min(62vh, 640px);
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  object-fit: cover;
+  background: #000;
+  transition: transform 0.6s ease;
+}
+:root[data-layout="story"] main .project-chapter .project-media.is-video video { height: min(58vh, 640px); }

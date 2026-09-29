@@ -1,10 +1,10 @@
 // Story-view extras (inactive in sidebar view):
 //  1. A fixed backdrop behind the chapters. It stays transparent on the first page so the
 //     floating molecules show, then fades in and crossfades to each chapter's color.
-//  2. Eased wheel scrolling so moving between chapters glides and slows down.
-//  3. Through the project chapters, each wheel gesture (or Page/arrow key) glides exactly
-//     one full screen, so every project lands filling the screen.
-//     Scrollbar and touch scrolling are left native (touch uses CSS scroll-snap instead).
+//  2. Page-by-page scrolling on the homepage: each wheel gesture (or Page/arrow/space key)
+//     glides one whole page with a long ease-in-out, like royleejr.com. A page taller than
+//     the screen (e.g. on a short window) gets extra stops so nothing is skipped.
+//     Scrollbar and touch scrolling stay native (touch uses CSS scroll-snap instead).
 (() => {
   const root = document.documentElement;
   const storyView = () => root.dataset.layout !== 'sidebar';
@@ -36,86 +36,64 @@
     [hero, ...chapters].forEach(el => midline.observe(el));
   }
 
-  // ---- 2 + 3. eased wheel scrolling, with page-by-page steps through the project chapters ----
-  if (reduceMotion) return;
-  const EASE = 0.085;                                    // lower = longer glide
-  let target = window.scrollY, current = window.scrollY, running = false;
+  // ---- 2. page-by-page scrolling ----
+  if (reduceMotion || !hero) return;
+  const DURATION = 1400;                                  // ms per page glide
+  const ease = t => (t < 0.5 ? 8 * t ** 4 : 1 - (-2 * t + 2) ** 4 / 2);   // ease-in-out quart
+  const pages = [hero, ...document.querySelectorAll('main .panel')];
   const maxScroll = () => document.documentElement.scrollHeight - window.innerHeight;
 
-  const frame = () => {
-    current += (target - current) * EASE;
-    if (Math.abs(target - current) < 0.5) { current = target; running = false; }
-    window.scrollTo(0, current);
-    if (running) requestAnimationFrame(frame);
+  let glide = null;                                       // { from, to, start } while moving
+  const tick = now => {
+    const t = Math.min(1, (now - glide.start) / DURATION);
+    window.scrollTo(0, glide.from + (glide.to - glide.from) * ease(t));
+    if (t < 1) requestAnimationFrame(tick); else glide = null;
   };
   const glideTo = y => {
-    if (!running) current = window.scrollY;
-    target = Math.max(0, Math.min(maxScroll(), Math.round(y)));
-    if (!running) { running = true; requestAnimationFrame(frame); }
+    const start = !glide;
+    glide = { from: window.scrollY, to: y, start: performance.now() };
+    if (start) requestAnimationFrame(tick);
   };
 
-  // Scroll positions a step can land on: each project chapter's top (plus extra stops inside a
-  // chapter taller than the screen, e.g. on short windows), ending at the section that follows.
-  const projects = [...document.querySelectorAll('main .project-chapter')];
+  // every scroll position a step can land on: each page's top, extra stops inside a page
+  // taller than the screen, and the very bottom (footer)
   const stops = () => {
-    const out = [];
-    for (const el of projects) {
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      const extra = el.offsetHeight - window.innerHeight;
-      for (let y = top; y < top + extra; y += window.innerHeight * 0.85) out.push(Math.round(y));
-      out.push(Math.round(top + Math.max(0, extra)));
+    const h = window.innerHeight, out = [0, maxScroll()];
+    for (const el of pages) {
+      const top = el === hero ? 0 : el.getBoundingClientRect().top + window.scrollY;
+      const extra = el.offsetHeight - h;
+      for (let y = top; y < top + extra; y += h * 0.85) out.push(y);
+      out.push(top + Math.max(0, extra));
     }
-    const last = projects[projects.length - 1];
-    out.push(Math.round(last.getBoundingClientRect().bottom + window.scrollY));
-    return [...new Set(out)].sort((a, b) => a - b);
+    return [...new Set(out.map(v => Math.round(Math.min(v, maxScroll()))))].sort((a, b) => a - b);
   };
 
-  // Where one step in direction dir (+1 down, -1 up) should land, or null to scroll freely.
-  const step = (dir, freeTarget) => {
-    if (!storyView() || !projects.length) return null;
-    const s = stops(), first = s[0], last = s[s.length - 1];
-    const y = running ? target : window.scrollY;
-    const h = window.innerHeight;
-    if (dir > 0) {
-      if (y < first - 2) return freeTarget > first - h * 0.5 ? first : null;   // entering from above
-      return y < last - 2 ? s.find(v => v > y + 2) : null;
-    }
-    if (y > last + 2) return freeTarget < last - h * 0.5 ? s[s.length - 2] : null; // entering from below
-    return y > first + 2 ? [...s].reverse().find(v => v < y - 2) : null;
-  };
-
-  // one step per gesture: trackpad momentum keeps firing wheel events, so hold further steps
-  // until the events pause
+  // One step per gesture: trackpad momentum keeps firing wheel events for a while, so
+  // further steps wait until the glide is done and the events pause.
   let lockUntil = 0;
-  const stepOrNull = (dir, freeTarget) => {
-    const stop = step(dir, freeTarget);
-    if (stop === null) return false;
+  const stepPage = dir => {
     const now = performance.now();
-    if (now < lockUntil) { lockUntil = Math.max(lockUntil, now + 220); return true; }
-    lockUntil = now + 750;
-    glideTo(stop);
-    return true;
+    if (now < lockUntil) { lockUntil = Math.max(lockUntil, now + 240); return; }
+    const y = glide ? glide.to : window.scrollY;
+    const s = stops();
+    const next = dir > 0 ? s.find(v => v > y + 2) : [...s].reverse().find(v => v < y - 2);
+    if (next === undefined) return;
+    lockUntil = now + DURATION;
+    glideTo(next);
   };
 
   window.addEventListener('wheel', e => {
-    if (!storyView() || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    if (!storyView() || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.deltaY === 0) return;
     e.preventDefault();
-    const px = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
-    if (!running) current = target = window.scrollY;
-    const free = target + px;
-    if (px !== 0 && stepOrNull(Math.sign(px), free)) return;
-    glideTo(free);
+    stepPage(Math.sign(e.deltaY));
   }, { passive: false });
 
   window.addEventListener('keydown', e => {
-    if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, select, button, [contenteditable]')) return;
+    if (!storyView() || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest('input, textarea, select, button, [contenteditable]')) return;
     const dir = { PageDown: 1, ArrowDown: 1, ' ': e.shiftKey ? -1 : 1, PageUp: -1, ArrowUp: -1 }[e.key];
     if (!dir) return;
-    const y = running ? target : window.scrollY;
-    const guess = y + dir * (e.key.startsWith('Arrow') ? 80 : window.innerHeight * 0.9);
-    if (stepOrNull(dir, guess)) e.preventDefault();
+    e.preventDefault();
+    stepPage(dir);
   });
-
-  // scrollbar drags and anchor jumps move the page directly; follow them
-  window.addEventListener('scroll', () => { if (!running) current = target = window.scrollY; }, { passive: true });
 })();

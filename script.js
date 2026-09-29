@@ -68,6 +68,20 @@ document.addEventListener('DOMContentLoaded',()=>{
     start()
   })
 
+  // project videos: load only when their page comes near, play while on screen, pause when not;
+  // with reduced motion they don't autoplay and get controls instead
+  const stillVideo=window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const videoIo=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      const v=en.target
+      if(en.isIntersecting){
+        if(!v.src){v.src=v.dataset.src;if(stillVideo){v.controls=true;v.preload='metadata'}}
+        if(!stillVideo) v.play().catch(()=>{})
+      }else if(!v.paused) v.pause()
+    })
+  },{rootMargin:'50% 0px'})
+  document.querySelectorAll('video[data-src]').forEach(v=>videoIo.observe(v))
+
   // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
   const root=document.documentElement;
   const toggle=document.querySelector('.theme-toggle');

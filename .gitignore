@@ -1,2 +1,6 @@
 .DS_Store
 Terminal Saved Output.txt
+
+# raw phone videos (the site uses compressed copies in images/)
+*.MOV
+*.mov

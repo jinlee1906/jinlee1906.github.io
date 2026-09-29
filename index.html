@@ -23,10 +23,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
-  <link rel="stylesheet" href="style.css?v=12dfd5f2">
+  <link rel="stylesheet" href="style.css?v=a9c56655">
   <link rel="stylesheet" href="hexagons.css?v=0e62f196">
-  <script src="script.js?v=dd80b2b4" defer></script>
-  <script src="story.js?v=72098e95" defer></script>
+  <script src="script.js?v=8ed9e93f" defer></script>
+  <script src="story.js?v=e418cde5" defer></script>
 </head>
 <body>
   <div class="view-controls">
@@ -271,8 +271,8 @@
         <p class="chapter-kicker">Project 04 / 04</p>
         <h1>Bananas Bananas Bananas!</h1>
         <div class="project-story">
-          <figure class="project-media is-photo">
-            <img src="images/bananas-lab.jpg" alt="Jin in a lab coat and face shield preparing dried banana samples in the analytical chemistry lab">
+          <figure class="project-media is-video">
+            <video data-src="images/bananas-lab.mp4" poster="images/bananas-lab.jpg" muted loop playsinline preload="none" aria-label="Video of Jin in a lab coat and face shield preparing dried banana samples in the analytical chemistry lab"></video>
           </figure>
           <div class="project-text">
             <p class="project-summary">For the final project of 09-221: Analytical Chemistry Lab, a group of four classmates and I set out to measure how much potassium is in ripe and unripe bananas and plantains.</p>
@@ -477,43 +477,48 @@
       <section id="education" class="panel">
         <h1 class="section-title">Education</h1>
 
-        <p class="edu-school">Carnegie Mellon University - Chemical Engineering 28'</p>
-        <ul>
-          <li class="edu-term">Fall 2025</li>
-          <li>06-100: Intro to ChemE</li>
+        <div class="edu-grid">
+          <div class="edu-col">
+            <p class="edu-school">Carnegie Mellon University - Chemical Engineering 28'</p>
+            <ul>
+              <li class="edu-term">Fall 2025</li>
+              <li>06-100: Intro to ChemE</li>
 
-          <li class="edu-term">Spring 2026</li>
-          <li>06-223: Chemical Engineering Thermodynamics</li>
-          <li>06-261: Fluid Mechanics</li>
-          <li>06-262: Mathematical Methods of Chemical Engineering</li>
+              <li class="edu-term">Spring 2026</li>
+              <li>06-223: Chemical Engineering Thermodynamics</li>
+              <li>06-261: Fluid Mechanics</li>
+              <li>06-262: Mathematical Methods of Chemical Engineering</li>
 
-          <li class="edu-term">Fall 2026</li>
-          <li>06-323: Heat and Mass Transfer</li>
-          <li>06-324: Computational Optimization and Machine Learning for Chemical Engineering</li>
-          <li>06-310: Molecular Foundations of Chemical Engineering</li>
-          <li>09-217: Organic Chemistry I</li>
-        </ul>
+              <li class="edu-term">Fall 2026</li>
+              <li>06-323: Heat and Mass Transfer</li>
+              <li>06-324: Computational Optimization and Machine Learning for Chemical Engineering</li>
+              <li>06-310: Molecular Foundations of Chemical Engineering</li>
+              <li>09-217: Organic Chemistry I</li>
+            </ul>
+          </div>
+          <div class="edu-col">
+            <p class="edu-school">University of Georgia - Coursework in Biochemical Engineering</p>
+            <ul>
+              <li class="edu-term">Fall 2024</li>
+              <li>ENGR 1120: Engineering Graphics and Design</li>
 
-        <p class="edu-school" style="margin-top: 24px;">University of Georgia - Coursework in Biochemical Engineering</p>
-        <ul>
-          <li class="edu-term">Fall 2024</li>
-          <li>ENGR 1120: Engineering Graphics and Design</li>
+              <li class="edu-term">Spring 2025</li>
+              <li>ENGR 1140: Computational Methods for Engineering</li>
+              <li>ENGR 2120: Statics</li>
+            </ul>
 
-          <li class="edu-term">Spring 2025</li>
-          <li>ENGR 1140: Computational Methods for Engineering</li>
-          <li>ENGR 2120: Statics</li>
-        </ul>
+            <p class="edu-school" style="margin-top: 24px;">Emory University - Dual Enrollment</p>
+            <ul>
+              <li class="edu-term">Fall 2023</li>
+              <li>BIO 141K: Introduction to Modern Biology I + Lab</li>
+            </ul>
 
-        <p class="edu-school" style="margin-top: 24px;">Emory University - Dual Enrollment</p>
-        <ul>
-          <li class="edu-term">Fall 2023</li>
-          <li>BIO 141K: Introduction to Modern Biology I + Lab</li>
-        </ul>
-
-        <p class="edu-school" style="margin-top: 24px;">Georgia State University - Dual Enrollment (Fall and Spring 2023)</p>
-        <ul>
-          <li style="color: var(--muted); font-style: italic;">41 credit hours worth of coursework transferred to UGA</li>
-        </ul>
+            <p class="edu-school" style="margin-top: 24px;">Georgia State University - Dual Enrollment (Fall and Spring 2023)</p>
+            <ul>
+              <li style="color: var(--muted); font-style: italic;">41 credit hours worth of coursework transferred to UGA</li>
+            </ul>
+          </div>
+        </div>
       </section>
     <footer class="site-footer">
       <span>&copy; 2026 Jin Lee</span>
