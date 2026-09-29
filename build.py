@@ -126,7 +126,7 @@ def project_chapters():
         anchor = "projects" if n == 1 else "project-" + file.removesuffix(".html")
         body = body.replace(
             '<section class="panel project-page">',
-            f'<section id="{anchor}" class="panel project-page project-chapter" data-nav="projects">\n'
+            f'<section id="{anchor}" class="panel project-page project-chapter{" is-flipped" if n % 2 == 0 else ""}" data-nav="projects">\n'
             f'        <p class="chapter-kicker">Project {n:02d} / {total:02d}</p>',
             1,
         )

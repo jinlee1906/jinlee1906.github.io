@@ -40,6 +40,34 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(img.complete&&img.naturalWidth===0) hide(); else img.addEventListener('error',hide)
   })
 
+  // multi-image project frames: crossfade every few seconds (paused on hover), dots to pick one
+  document.querySelectorAll('.project-media.is-gallery').forEach(frame=>{
+    const imgs=[...frame.querySelectorAll('img')]
+    const dots=document.createElement('div')
+    dots.className='gallery-dots'
+    let i=0,timer=null
+    const show=n=>{
+      i=(n+imgs.length)%imgs.length
+      imgs.forEach((img,k)=>img.classList.toggle('is-shown',k===i))
+      ;[...dots.children].forEach((d,k)=>d.setAttribute('aria-current',String(k===i)))
+    }
+    imgs.forEach((img,k)=>{
+      const b=document.createElement('button')
+      b.type='button'
+      b.setAttribute('aria-label','Show image '+(k+1)+' of '+imgs.length)
+      b.addEventListener('click',()=>show(k))
+      dots.appendChild(b)
+    })
+    frame.appendChild(dots)
+    show(0)
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const start=()=>{if(!timer) timer=setInterval(()=>show(i+1),4500)}
+    const stop=()=>{clearInterval(timer);timer=null}
+    frame.addEventListener('mouseenter',stop)
+    frame.addEventListener('mouseleave',start)
+    start()
+  })
+
   // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
   const root=document.documentElement;
   const toggle=document.querySelector('.theme-toggle');
