@@ -1082,3 +1082,74 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   transition: transform 0.6s ease;
 }
 :root[data-layout="story"] main .project-chapter .project-media.is-video video { height: min(58vh, 640px); }
+
+/* social profile screenshot that links out (Perfumery) */
+.social-card {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  max-width: 300px;
+  color: var(--accent-text);
+  font-size: 0.9rem;
+}
+.social-card img {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.social-card:hover img { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.18); }
+.project-page .social-card img { width: 100%; max-width: none; max-height: none; }
+@media (min-width: 769px) and (max-height: 780px) {
+  :root[data-layout="story"] main .social-card { max-width: 260px; margin-top: 12px; }
+}
+
+/* portrait photo/video: the media column shrinks to the image so the write-up gets the room */
+.project-story:has(> .project-media.is-photo, > .project-media.is-video) { grid-template-columns: auto minmax(0, 1fr); }
+.project-chapter.is-flipped .project-story:has(> .project-media.is-photo, > .project-media.is-video) { grid-template-columns: minmax(0, 1fr) auto; }
+@media (max-width: 768px) {
+  .project-story:has(> .project-media.is-photo, > .project-media.is-video),
+  .project-chapter.is-flipped .project-story:has(> .project-media.is-photo, > .project-media.is-video) { grid-template-columns: 1fr; }
+}
+
+/* =========================================
+   WIDER CHAPTERS, TITLES UP TOP (story view, every page): slimmer side margins, each
+   chapter title sits near the top of its screen, and the chapter's main layout (About
+   story, project media + write-up) fills the rest of the screen with larger media.
+   ========================================= */
+:root[data-layout="story"] .content { max-width: none; padding: 48px 4vw; }
+:root[data-layout="story"] main .panel {
+  max-width: 1700px;
+  justify-content: flex-start;
+  padding: 6vh 0 5vh;
+}
+:root[data-layout="story"] main .project-chapter { padding: 6vh 0 5vh; justify-content: flex-start; }
+:root[data-layout="story"] main .panel > h1 { margin-bottom: 24px; }
+:root[data-layout="story"] main .panel > .about-story,
+:root[data-layout="story"] main .panel > .project-story { flex: 1; align-content: center; }
+
+/* bigger project media: everything below the title is available to it */
+:root[data-layout="story"] main .project-page .project-media img,
+:root[data-layout="story"] main .project-chapter .project-media img { max-height: min(calc(100vh - 280px), 860px); }
+:root[data-layout="story"] main .project-page .project-media.is-gallery,
+:root[data-layout="story"] main .project-chapter .project-media.is-gallery { max-height: min(calc(100vh - 280px), 860px); }
+:root[data-layout="story"] main .project-page .project-media.is-video video,
+:root[data-layout="story"] main .project-chapter .project-media.is-video video { height: min(calc(100vh - 280px), 860px); }
+:root[data-layout="story"] main .about-photo img { max-height: calc(100vh - 230px); }
+:root[data-layout="story"] main .project-page .project-text .project-summary { font-size: clamp(1.1rem, 1.5vw, 1.4rem); }
+:root[data-layout="story"] main .project-page .project-text p,
+:root[data-layout="story"] main .project-page .project-text li { font-size: clamp(1rem, 1.1vw, 1.12rem); }
+
+@media (min-width: 769px) and (max-height: 780px) {
+  :root[data-layout="story"] main .panel,
+  :root[data-layout="story"] main .project-chapter { padding: 4vh 0 3vh; }
+  :root[data-layout="story"] main .panel > h1 { margin-bottom: 16px; }
+  :root[data-layout="story"] main .project-page .project-text p,
+  :root[data-layout="story"] main .project-page .project-text li { font-size: 0.93rem; }
+  :root[data-layout="story"] main .project-page .project-text .project-summary { font-size: 1.02rem; }
+}
+@media (max-width: 768px) {
+  :root[data-layout="story"] .content { padding: 24px 16px; }
+}
