@@ -12,3 +12,5 @@ Terminal Saved Output.txt
 # raw downloaded videos in the site root (the site uses processed copies in images/)
 /*.mp4
 /*.MP4
+/packs.jpeg
+/rnd.jpeg
