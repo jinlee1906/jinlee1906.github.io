@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const navLinks=document.querySelectorAll('aside nav a');
   const spyObserver=new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
-      const id=entry.target.id;
+      const id=entry.target.dataset.nav||entry.target.id;   // project chapters all light up "Projects"
       const activeLink=document.querySelector(`aside nav a[href="#${id}"]`);
       if(entry.isIntersecting){
         navLinks.forEach(link=>link.classList.remove('active'));
@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   },{threshold:0.5});
   sections.forEach(section=>spyObserver.observe(section));
+
+  // hide a project image whose hosted file is gone instead of showing a broken-image box
+  document.querySelectorAll('.project-image img').forEach(img=>{
+    const hide=()=>{img.closest('.project-image').hidden=true}
+    if(img.complete&&img.naturalWidth===0) hide(); else img.addEventListener('error',hide)
+  })
 
   // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
   const root=document.documentElement;

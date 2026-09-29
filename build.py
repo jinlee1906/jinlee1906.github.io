@@ -10,6 +10,7 @@ import datetime
 import hashlib
 import html
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).parent
 PARTIALS = ROOT / "partials"
@@ -109,6 +110,30 @@ MOTIFS = [
 ]
 
 
+# Projects shown as full chapters on the homepage, in order. Each chapter is the same
+# content/<file> that builds the project's standalone page, minus its "Back to projects" link.
+PROJECT_CHAPTERS = ["perfume.html", "brandstorm.html", "venturiflowmeter.html", "bananas.html"]
+
+
+def project_chapters():
+    chapters = []
+    total = len(PROJECT_CHAPTERS)
+    for n, file in enumerate(PROJECT_CHAPTERS, 1):
+        body = (CONTENT / file).read_text()
+        body = re.sub(r'\s*<p><a class="back-link"[^\n]*</p>', "", body)
+        # the first chapter carries #projects so nav links and the hero button land on it;
+        # data-nav keeps the sidebar's "Projects" link highlighted on every project chapter
+        anchor = "projects" if n == 1 else "project-" + file.removesuffix(".html")
+        body = body.replace(
+            '<section class="panel project-page">',
+            f'<section id="{anchor}" class="panel project-page project-chapter" data-nav="projects">\n'
+            f'        <p class="chapter-kicker">Project {n:02d} / {total:02d}</p>',
+            1,
+        )
+        chapters.append(body.rstrip())
+    return "\n\n".join(chapters)
+
+
 def hex_background(count):
     hexes = []
     for i in range(1, count + 1):
@@ -158,6 +183,8 @@ SITE_FOOTER = f"""    <footer class="site-footer">
 
 def build_page(page):
     content = (CONTENT / page["file"]).read_text()
+    if "<!-- @project-chapters -->" in content:
+        content = content.replace("      <!-- @project-chapters -->", project_chapters())
     sidebar = SIDEBARS[page["sidebar"]]
     ornaments = PAGE_ORNAMENTS if page.get("ornaments") else ""
     is_home = page["file"] == "index.html"
