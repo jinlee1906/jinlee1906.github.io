@@ -40,6 +40,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(img.complete&&img.naturalWidth===0) hide(); else img.addEventListener('error',hide)
   })
 
+  // skills entrance order (--i) and line-drawing hooks for the lab illustrations (style.css)
+  let skillOrder=0
+  document.querySelectorAll('#skills .skill-group-title, #skills .skills-logos > *, #skills .skill-coursework').forEach(el=>{
+    el.style.setProperty('--i',skillOrder++)
+  })
+  document.querySelectorAll('#skills .lab-icon *:not(.dash):not(.fl)').forEach(el=>el.setAttribute('pathLength','1'))
+
   // multi-image project frames: crossfade every few seconds (paused on hover), dots to pick one
   document.querySelectorAll('.project-media.is-gallery').forEach(frame=>{
     const imgs=[...frame.querySelectorAll('img')]

@@ -1153,3 +1153,65 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 @media (max-width: 768px) {
   :root[data-layout="story"] .content { padding: 24px 16px; }
 }
+
+/* =========================================
+   SKILLS: grouped rows of logos / lab illustrations
+   ========================================= */
+.skill-group-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--text);
+}
+
+/* story view: everything scales with the screen so the chapter fills it, with margin */
+:root[data-layout="story"] #skills .skill-group { margin-bottom: 3.6vh; }
+:root[data-layout="story"] #skills .skill-group-title { font-size: clamp(1.1rem, 2.8vh, 1.8rem); }
+:root[data-layout="story"] #skills .skills-logos { gap: clamp(28px, 4vw, 72px); margin: 2vh 0 0; }
+:root[data-layout="story"] #skills .skills-logos img { height: clamp(52px, 11.5vh, 140px); }
+:root[data-layout="story"] #skills .skills-logos img.logo-wordmark { height: clamp(20px, 4.4vh, 54px); }
+:root[data-layout="story"] #skills .lab-icon { width: clamp(60px, 11.5vh, 140px); height: clamp(60px, 11.5vh, 140px); }
+:root[data-layout="story"] #skills .lab-skill { gap: 1.2vh; }
+:root[data-layout="story"] #skills .skill-tag { font-size: clamp(1.1rem, 2.4vh, 1.6rem); }
+:root[data-layout="story"] #skills .skill-coursework { margin: 0; font-size: clamp(1rem, 2.2vh, 1.35rem); line-height: 1.6; }
+
+/* entrance: group titles slide in from the left, each logo pops up in turn, and the lab
+   illustrations draw their lines (script.js sets --i for the order and pathLength) */
+#skills.will-reveal .skill-group-title,
+#skills.will-reveal .skill-coursework { opacity: 0; transform: translateX(-40px); }
+#skills.in-view .skill-group-title,
+#skills.in-view .skill-coursework {
+  opacity: 1;
+  transform: none;
+  transition: opacity 1s ease-in-out, transform 1s cubic-bezier(.2,.7,.2,1);
+  transition-delay: calc(0.3s + var(--i, 0) * 70ms);
+}
+#skills.will-reveal:not(.in-view) .skills-logos > * { opacity: 0; }
+#skills.in-view .skills-logos > * {
+  animation: skillPop 0.8s cubic-bezier(.2,.8,.25,1.15) calc(0.4s + var(--i, 0) * 70ms) backwards;
+}
+@keyframes skillPop {
+  from { opacity: 0; transform: translateY(26px) scale(0.7); }
+}
+#skills.in-view .lab-icon [pathLength] {
+  stroke-dasharray: 1;
+  animation: skillDraw 1.3s ease-in-out calc(0.5s + var(--i, 0) * 70ms) backwards;
+}
+@keyframes skillDraw {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  8%   { opacity: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+/* the generic chapter fade-up would double the motion, so the groups themselves stay put */
+:root[data-layout="story"] main #skills.will-reveal > .skill-group,
+:root[data-layout="story"] main #skills.will-reveal > .skill-coursework { opacity: 1; transform: none; }
+:root[data-layout="story"] main #skills.will-reveal:not(.in-view) > .skill-coursework { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  #skills .skill-group-title,
+  #skills .skill-coursework,
+  #skills .skills-logos > * { opacity: 1 !important; transform: none !important; }
+}
