@@ -4,3 +4,7 @@ Terminal Saved Output.txt
 # raw phone videos (the site uses compressed copies in images/)
 *.MOV
 *.mov
+
+# original screenshots (the site uses resized copies in images/)
+/Open TikTok profile.png
+/tiktok .png
