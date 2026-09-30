@@ -85,6 +85,8 @@
   const glideTo = y => {
     const start = !glide;
     glide = { from: window.scrollY, to: y, start: performance.now() };
+    // announce where the page is headed, so a playing video can mute before it slides away
+    window.dispatchEvent(new CustomEvent('story:glide', { detail: { to: y } }));
     if (start) requestAnimationFrame(tick);
   };
 

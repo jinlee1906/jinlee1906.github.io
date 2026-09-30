@@ -89,13 +89,38 @@ document.addEventListener('DOMContentLoaded',()=>{
   const nearIo=new IntersectionObserver(entries=>{
     entries.forEach(en=>{if(en.isIntersecting) loadVideo(en.target)})
   },{rootMargin:'50% 0px'})
+  // mute with a quick fade instead of a hard cut
+  const fadeMute=v=>{
+    if(v.muted||v._fading) return
+    v._fading=true
+    const start=performance.now(),from=v.volume
+    const step=now=>{
+      const t=Math.min(1,(now-start)/250)
+      v.volume=from*(1-t)
+      if(t<1) requestAnimationFrame(step)
+      else{v.muted=true;v.volume=from;v._fading=false}
+    }
+    requestAnimationFrame(step)
+  }
   const videoIo=new IntersectionObserver(entries=>{
     entries.forEach(en=>{
       const v=en.target
-      if(en.isIntersecting){loadVideo(v);if(!stillVideo) v.play().catch(()=>{})}
-      else{if(!v.paused) v.pause();v.muted=true}
+      if(en.isIntersecting){loadVideo(v);if(!stillVideo&&v.paused) v.play().catch(()=>{})}
+      else if(!v.paused) v.pause()
+      if(en.intersectionRatio<0.5) fadeMute(v)   // half gone (any kind of scrolling): sound off
     })
-  },{threshold:0})
+  },{threshold:[0,0.5]})
+  // story-view page glides: mute the moment the glide starts if the video won't be on the
+  // page it is heading to (no waiting for it to slide off screen)
+  window.addEventListener('story:glide',e=>{
+    document.querySelectorAll('video[data-src]').forEach(v=>{
+      if(v.muted) return
+      const r=v.getBoundingClientRect()
+      const top=r.top+window.scrollY-e.detail.to
+      const visible=Math.min(top+r.height,window.innerHeight)-Math.max(top,0)
+      if(visible<r.height*0.5) fadeMute(v)
+    })
+  })
   document.querySelectorAll('video[data-src]').forEach(v=>{nearIo.observe(v);videoIo.observe(v)})
 
   // sound toggle on a project video (starts muted so it can autoplay; one tap turns sound on)
