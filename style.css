@@ -1596,16 +1596,12 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: clamp(44px, 7vh, 72px);
-  padding: 6px 10px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px var(--shadow-color);
+  height: clamp(64px, 11vh, 120px);
 }
-.transfer-logo img { display: block; height: 100%; width: auto; }
+.transfer-logo img { display: block; height: 100%; width: auto; border-radius: 4px; }
 .transfer-school figcaption { font-size: 0.78rem; letter-spacing: 0.06em; color: var(--muted); }
 .transfer-arrow {
-  width: clamp(60px, 7vw, 110px);
+  width: clamp(70px, 8vw, 130px);
   margin-bottom: 22px;   /* line up with the logos, not the captions */
   overflow: visible;
   fill: none;
