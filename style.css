@@ -1458,3 +1458,36 @@ html.hero-in .hero-button + .hero-button { animation-delay: 1.7s; }
 html.hero-in .hero-arrow { animation: heroFade 1s ease 2.1s backwards; }
 html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 @keyframes heroFade { from { opacity: 0; } }
+
+/* sound toggle pill over a project video (bottom-left of the frame) */
+.video-sound {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px 0 11px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  font: 600 0.8rem/1 Lora, Georgia, serif;
+  letter-spacing: .03em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background-color .2s ease, transform .2s ease;
+}
+.video-sound:hover { background: rgba(0,0,0,.72); transform: translateY(-2px); }
+.video-sound:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.video-sound svg { width: 18px; height: 18px; fill: #fff; }
+.video-sound svg .stroke { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+.video-sound .icon-sound,
+.video-sound[aria-pressed="true"] .icon-muted { display: none; }
+.video-sound[aria-pressed="true"] .icon-sound { display: block; }
+.video-sound[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #111; }
+.video-sound[aria-pressed="true"] svg { fill: #111; }
+.video-sound[aria-pressed="true"] svg .stroke { stroke: #111; }

@@ -15,7 +15,7 @@ html.is-loading .loader {
   padding: 24px 4vw;
   background: var(--page-bg);
   color: var(--text);
-  animation: loaderWipe 1s cubic-bezier(.75,0,.25,1) 4.75s forwards;
+  animation: loaderWipe 1.8s cubic-bezier(.7,0,.3,1) 4.75s forwards;
 }
 /* exit: the diagram and progress lift away, then the whole screen slides up like a curtain;
    its glowing accent edge (just below the screen until it moves) shows the lift even though

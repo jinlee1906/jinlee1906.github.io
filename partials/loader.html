@@ -121,9 +121,9 @@
         bar.style.transform = 'scaleX(' + p + ')';
         if (p < 1) requestAnimationFrame(tick);
       })(start);
-      // 4.5s the diagram lifts away, 4.75s the curtain wipes up (loader.css) while the
-      // welcome page plays its entrance underneath, 5.75s the loader is gone
-      setTimeout(function () { whenReady(heroIn); }, 4850);
-      setTimeout(function () { root.classList.remove('is-loading'); loader.remove(); }, 5750);
+      // 4.5s the diagram lifts away, 4.75s the curtain slides up over 1.8s (loader.css) while
+      // the welcome page plays its entrance underneath, 6.6s the loader is gone
+      setTimeout(function () { whenReady(heroIn); }, 5100);
+      setTimeout(function () { root.classList.remove('is-loading'); loader.remove(); }, 6600);
     })();
   </script>

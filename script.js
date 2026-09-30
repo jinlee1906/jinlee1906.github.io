@@ -95,6 +95,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   },{rootMargin:'50% 0px'})
   document.querySelectorAll('video[data-src]').forEach(v=>videoIo.observe(v))
 
+  // sound toggle on a project video (starts muted so it can autoplay; one tap turns sound on)
+  document.querySelectorAll('.video-sound').forEach(btn=>{
+    const v=btn.closest('figure').querySelector('video')
+    const label=btn.querySelector('span')
+    const sync=()=>{
+      btn.setAttribute('aria-pressed',String(!v.muted))
+      btn.setAttribute('aria-label',v.muted?'Turn sound on':'Turn sound off')
+      label.textContent=v.muted?'Sound off':'Sound on'
+    }
+    btn.addEventListener('click',()=>{
+      if(!v.src) v.src=v.dataset.src
+      v.muted=!v.muted
+      if(!v.muted) v.play().catch(()=>{})
+      sync()
+    })
+    v.addEventListener('volumechange',sync)
+  })
+
   // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
   const root=document.documentElement;
   const toggle=document.querySelector('.theme-toggle');
