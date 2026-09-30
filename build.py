@@ -193,6 +193,13 @@ LOADER_HEAD_SCRIPT = (
 )
 
 
+def fingerprint_videos(markup):
+    """Version local video URLs like the CSS/JS, so a replaced video is never served from a
+    browser's stale cache (a new file under the same name kept playing the old one)."""
+    return re.sub(r'((?:data-src|src)=")(images/[^"?]+\.mp4)(")',
+                  lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
+
+
 def build_page(page):
     content = (CONTENT / page["file"]).read_text()
     content = content.replace(
@@ -209,6 +216,7 @@ def build_page(page):
     description = html.escape(page["description"])
     url = SITE_URL if is_home else SITE_URL + page["file"]
     loader_css = f'<link rel="stylesheet" href="{asset("loader.css")}">' if is_home else ""
+    content = fingerprint_videos(content)
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
