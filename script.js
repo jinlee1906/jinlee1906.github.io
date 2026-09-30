@@ -81,6 +81,44 @@ document.addEventListener('DOMContentLoaded',()=>{
     start()
   })
 
+  // About photo stack: slides to the next portrait every 4s while About is on screen (a copy
+  // of the first photo trails the last so the loop keeps sliding forward); the bars below
+  // fill with each photo and can be clicked to jump to one
+  document.querySelectorAll('.about-stack').forEach(stack=>{
+    const track=stack.querySelector('.about-track'), bars=stack.querySelector('.about-bars')
+    const n=track.children.length, HOLD=4000
+    const still=window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const copy=track.firstElementChild.cloneNode()
+    copy.alt=''; copy.setAttribute('aria-hidden','true'); track.appendChild(copy)
+    for(let k=0;k<n;k++){
+      const b=document.createElement('button')
+      b.type='button'
+      b.setAttribute('aria-label','Show photo '+(k+1)+' of '+n)
+      b.addEventListener('click',()=>{go(k,false);if(timer) run()})
+      bars.appendChild(b)
+    }
+    let i=0,timer=null
+    const go=(k,slide)=>{
+      track.classList.toggle('is-moving',slide)
+      track.style.transform='translateX('+(-100*k)+'%)'
+      i=k%n
+      ;[...bars.children].forEach((b,j)=>{
+        b.classList.remove('is-current','is-done')
+        void b.offsetWidth // restart the fill animation
+        if(j<i) b.classList.add('is-done'); else if(j===i) b.classList.add('is-current')
+        b.setAttribute('aria-current',String(j===i))
+      })
+      if(k===n) setTimeout(()=>{track.classList.remove('is-moving');track.style.transform='none'},950)
+    }
+    const run=()=>{clearTimeout(timer);timer=setTimeout(()=>{go(i+1,true);run()},HOLD)}
+    const stop=()=>{clearTimeout(timer);timer=null}
+    go(0,false)
+    if(still) return
+    new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){if(!timer){go(0,false);run()}}else stop()
+    },{threshold:0.3}).observe(stack)
+  })
+
   // project videos: start loading when their page comes near; play while any of the video is
   // on screen, and pause + mute the moment it leaves (so sound never follows you down the page).
   // With reduced motion they don't autoplay and get controls instead

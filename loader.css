@@ -34,14 +34,15 @@ html.is-loading .loader::after {
 html.is-loading .loader > * { animation: loaderLift 0.55s cubic-bezier(.5,0,.75,0) 4.5s forwards; }
 @keyframes loaderLift { to { opacity: 0; transform: translateY(-48px); } }
 
+/* set like the "Jin Lee" on the welcome page: Lora, bold, in the accent color */
+.loader { font-family: Lora, Georgia, serif; }
 .loader-title {
   margin: 0;
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-strong);
+  font-size: clamp(1.8rem, 3.6vw, 3rem);
+  font-weight: 700;
+  color: var(--accent-text-lg);
 }
-.loader-title span { color: var(--muted); font-size: 0.6em; letter-spacing: 0.18em; }
+.loader-title span { color: var(--muted); font-size: 0.5em; font-weight: 400; letter-spacing: 0.04em; }
 
 .pfd { width: min(100%, 1250px); max-height: 66vh; overflow: visible; }
 .pfd-lines, .pfd-pipes {
@@ -54,7 +55,7 @@ html.is-loading .loader > * { animation: loaderLift 0.55s cubic-bezier(.5,0,.75,
 .pfd-lines .tube { stroke-width: 3; opacity: 0.7; }
 .pfd-labels text {
   fill: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: Lora, Georgia, serif;
   font-size: 34px;
   font-weight: 600;
   text-anchor: middle;

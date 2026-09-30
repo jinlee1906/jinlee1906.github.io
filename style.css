@@ -1617,3 +1617,61 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 @media (prefers-reduced-motion: reduce) {
   .about-panel .transfer { opacity: 1; transform: none; }
 }
+
+/* =========================================
+   ABOUT PHOTO STACK: the portraits slide past one after another every 4s (script.js);
+   the bars along the bottom fill while each photo is up. Every photo is cropped to the
+   same tall frame, which takes the full height the page leaves it in story view.
+   ========================================= */
+.about-stack { position: relative; aspect-ratio: 2 / 3; }
+.about-track { display: flex; height: 100%; }
+.about-track.is-moving { transition: transform 0.9s cubic-bezier(.65,0,.35,1); }
+.about-stack .about-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+.about-stack img[src*="mascot"] { object-position: 60% 55%; }
+.about-stack img[src*="gym"] { object-position: center 45%; }
+.about-bars {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  gap: 6px;
+}
+.about-bars button {
+  flex: 1;
+  height: 14px;
+  padding: 5px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.about-bars button::before {
+  content: '';
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.35) linear-gradient(var(--accent), var(--accent)) no-repeat 0 0 / 0% 100%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+.about-bars .is-done::before { background-size: 100% 100%; }
+.about-bars .is-current::before { animation: aboutBar 4s linear forwards; }
+@keyframes aboutBar { to { background-size: 100% 100%; } }
+:root[data-layout="story"] main .about-stack {
+  height: calc(100vh - 230px);
+  max-width: 100%;
+  justify-self: center;
+}
+@media (max-width: 768px) {
+  :root[data-layout="story"] main .about-stack { height: auto; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-bars .is-current::before { animation: none; background-size: 100% 100%; }
+}
