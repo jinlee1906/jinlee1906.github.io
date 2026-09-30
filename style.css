@@ -1360,3 +1360,44 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 /* story view: the resume preview sizes to the space below the buttons so Resume stays one screen */
 :root[data-layout="story"] main #resume .resume-preview { max-width: none; width: fit-content; align-self: flex-start; }
 :root[data-layout="story"] main #resume .resume-preview img { width: auto; max-width: 100%; max-height: calc(88vh - 215px); }
+
+/* =========================================
+   CLUB CHAPTERS (extracurriculars): photo galleries, logo frames, a small club badge and
+   the role/date facts above the write-up
+   ========================================= */
+.project-media.is-photos { aspect-ratio: 4 / 3; }
+.project-page .project-media.is-photos img { inset: 0; width: 100%; height: 100%; }
+.project-media.is-photos .gallery-dots button { border-color: rgba(var(--overlay-rgb), .5); }
+.project-media.is-photos .gallery-dots button[aria-current="true"] { background: rgba(var(--overlay-rgb), .75); }
+.project-media.is-logo {
+  width: min(100%, 440px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 9%;
+  background: #fff;
+}
+.project-page .project-media.is-logo img { width: 100%; height: 100%; max-height: none; object-fit: contain; }
+:root[data-layout="story"] main .project-chapter .project-media.is-logo { width: min(100%, calc(100vh - 290px), 480px); }
+:root[data-layout="story"] main .project-chapter .project-media.is-logo img { max-height: none; }
+.project-page .club-badge {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: clamp(44px, 7vh, 72px);
+  margin-bottom: 16px;
+  border: none;
+  border-radius: 0;
+}
+.project-page .club-facts { color: var(--muted); line-height: 1.7; }
+.project-page .club-facts strong { color: var(--text); }
+
+/* =========================================
+   STORY VIEW TWEAKS: big chapter numbers sit on the side away from the media so no photo
+   covers them (text over a number is fine), and no separator lines between segments
+   ========================================= */
+:root[data-layout="story"] main .panel.is-flipped[data-mark]::before,
+:root[data-layout="story"] main #experience[data-mark]::before { right: auto; left: 0; }
+:root[data-layout="story"] main .panel > h1::after { display: none; }
+:root[data-layout="story"] main .panel > h1 { padding-bottom: 0; }
+:root[data-layout="story"] .site-footer { border-top: none; }

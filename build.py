@@ -110,24 +110,26 @@ MOTIFS = [
 ]
 
 
-# Projects shown as full chapters on the homepage, in order. Each chapter is the same
-# content/<file> that builds the project's standalone page, minus its "Back to projects" link.
+# Projects and clubs shown as full chapters on the homepage, in order. Each chapter is the
+# same content/<file> that builds the standalone page, minus its "Back to ..." link.
 PROJECT_CHAPTERS = ["perfume.html", "brandstorm.html", "venturiflowmeter.html", "bananas.html"]
+CLUB_CHAPTERS = ["oc.html", "ssa.html", "tcl.html", "rocket-command.html", "solar-racing.html"]
 
 
-def project_chapters():
+def story_chapters(files, section, label, prefix):
+    """The first chapter carries #<section> so nav links land on it; data-nav keeps the
+    sidebar link for <section> highlighted on every chapter of the run."""
     chapters = []
-    total = len(PROJECT_CHAPTERS)
-    for n, file in enumerate(PROJECT_CHAPTERS, 1):
+    total = len(files)
+    for n, file in enumerate(files, 1):
         body = (CONTENT / file).read_text()
         body = re.sub(r'\s*<p><a class="back-link"[^\n]*</p>', "", body)
-        # the first chapter carries #projects so nav links and the hero button land on it;
-        # data-nav keeps the sidebar's "Projects" link highlighted on every project chapter
-        anchor = "projects" if n == 1 else "project-" + file.removesuffix(".html")
+        anchor = section if n == 1 else prefix + file.removesuffix(".html")
+        flipped = " is-flipped" if n % 2 == 0 else ""
         body = body.replace(
             '<section class="panel project-page">',
-            f'<section id="{anchor}" class="panel project-page project-chapter{" is-flipped" if n % 2 == 0 else ""}" data-nav="projects">\n'
-            f'        <p class="chapter-kicker">Project {n:02d} / {total:02d}</p>',
+            f'<section id="{anchor}" class="panel project-page project-chapter{flipped}" data-nav="{section}">\n'
+            f'        <p class="chapter-kicker">{label} {n:02d} / {total:02d}</p>',
             1,
         )
         chapters.append(body.rstrip())
@@ -192,8 +194,13 @@ LOADER_HEAD_SCRIPT = (
 
 def build_page(page):
     content = (CONTENT / page["file"]).read_text()
-    if "<!-- @project-chapters -->" in content:
-        content = content.replace("      <!-- @project-chapters -->", project_chapters())
+    content = content.replace(
+        "      <!-- @project-chapters -->",
+        story_chapters(PROJECT_CHAPTERS, "projects", "Project", "project-"),
+    ).replace(
+        "      <!-- @club-chapters -->",
+        story_chapters(CLUB_CHAPTERS, "extracurriculars", "Extracurricular", "club-"),
+    )
     sidebar = SIDEBARS[page["sidebar"]]
     ornaments = PAGE_ORNAMENTS if page.get("ornaments") else ""
     is_home = page["file"] == "index.html"

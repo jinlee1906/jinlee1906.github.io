@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
-  <link rel="stylesheet" href="style.css?v=dcda9977">
+  <link rel="stylesheet" href="style.css?v=f7e82a5e">
   <link rel="stylesheet" href="hexagons.css?v=0e62f196">
   <link rel="stylesheet" href="loader.css?v=d2a86860">
   <script src="script.js?v=fecffb3b" defer></script>
@@ -410,61 +410,78 @@
         </div>
       </section>
 
-      <!-- ===== EXTRACURRICULARS SECTION ===== -->
-      <section id="extracurriculars" class="panel">
-        <h1 class="section-title">Extracurriculars & Clubs</h1>
-        <div class="project-grid">
+      <!-- ===== EXTRACURRICULARS: one full chapter per club, inlined by build.py from content/<club>.html ===== -->
+      <section id="extracurriculars" class="panel project-page project-chapter" data-nav="extracurriculars">
+        <p class="chapter-kicker">Extracurricular 01 / 05</p>
+        <h1>CMU Orientation Counselor</h1>
+        <div class="project-story">
+          <figure class="project-media is-gallery is-photos">
+            <img src="images/oc-orientation-group.jpg" alt="Orientation group photo in Wiegand Gymnasium">
+            <img src="images/oc-bridge-group.jpg" alt="Orientation group photo overlooking the Monongahela River">
+          </figure>
+          <div class="project-text">
+            <img class="club-badge" src="images/cmu-seal.webp" alt="Carnegie Mellon University seal">
+            <p class="club-facts"><strong>Role:</strong> First-Year OC + Transfer OC<br><strong>Date:</strong> Fall 2026</p>
+            <p class="project-summary">I coordinated a week-long orientation for first-year students, and I was one of two transfer orientation counselors for an incoming class of 64 transfer students.</p>
+            <p>This involved planning specialty events while integrating them into the Tartan community.</p>
+          </div>
+        </div>
+      </section>
 
-          <!-- Orientation Counselor Card -->
-          <a class="project-card" href="oc.html">
-            <div class="extracard-img">
-              <img src="images/cmu-seal.webp" alt="CMU Seal">
-            </div>
-            <h2>Orientation Counselor</h2>
-            <p>CMU First-Year & Transfer OC</p>
-            <span class="card-arrow">→</span>
-          </a>
+      <section id="club-ssa" class="panel project-page project-chapter is-flipped" data-nav="extracurriculars">
+        <p class="chapter-kicker">Extracurricular 02 / 05</p>
+        <h1>CMU SSA</h1>
+        <div class="project-story">
+          <figure class="project-media is-landscape">
+            <img src="images/ssa-park-group.jpg" alt="CMU SSA group photo at a park gathering">
+          </figure>
+          <div class="project-text">
+            <img class="club-badge" src="images/ssa-logo.png" alt="SSA gryphon logo">
+            <p class="club-facts"><strong>Organization:</strong> Singapore Students Association<br><strong>Role:</strong> President<br><strong>Status:</strong> Active</p>
+            <p class="project-summary">The Singapore Students Association at Carnegie Mellon creates a vibrant and inclusive community for students of Singaporean heritage and allies.</p>
+            <p>Through cultural events, discussions, and social gatherings, SSA fosters a sense of belonging and celebrates diversity on campus. As President of the organization, I act as the primary liaison between the University officials, organization members, external partners (Deutsche Bank, HSBC, Red Dot Link), and the Singapore Government.</p>
+          </div>
+        </div>
+      </section>
 
-          <!-- CMU SSA Card -->
-          <a class="project-card" href="ssa.html">
-            <div class="extracard-img">
-              <img src="images/ssa-logo.png" alt="SSA Gryphon">
-            </div>
-            <h2>CMU SSA</h2>
-            <p>Singapore Student Association</p>
-            <span class="card-arrow">→</span>
-          </a>
+      <section id="club-tcl" class="panel project-page project-chapter" data-nav="extracurriculars">
+        <p class="chapter-kicker">Extracurricular 03 / 05</p>
+        <h1>Tartan Cultural League</h1>
+        <div class="project-story">
+          <figure class="project-media is-logo">
+            <img src="images/cmu-seal.webp" alt="Carnegie Mellon University seal">
+          </figure>
+          <div class="project-text">
+            <p class="club-facts"><strong>Organization:</strong> Multicultural Club League<br><strong>Role:</strong> Representative for SSA<br><strong>Status:</strong> Active</p>
+            <p class="project-summary">Tartan Cultural League (TCL) is a student-run organization that hosts intercultural events for participating societies.</p>
+            <p>Each representative collaborates to create new events and acts as a correspondent for their respective organization.</p>
+          </div>
+        </div>
+      </section>
 
-          <!-- TCL Card -->
-          <a class="project-card" href="tcl.html">
-            <div class="extracard-img">
-              <img src="images/cmu-seal.webp" alt="CMU Seal">
-            </div>
-            <h2>Tartan Cultural League</h2>
-            <p>Multicultural Club League</p>
-            <span class="card-arrow">→</span>
-          </a>
+      <section id="club-rocket-command" class="panel project-page project-chapter is-flipped" data-nav="extracurriculars">
+        <p class="chapter-kicker">Extracurricular 04 / 05</p>
+        <h1>Carnegie Mellon Rocket Command</h1>
+        <div class="project-story">
+          <figure class="project-media is-logo">
+            <img src="images/rocket-command-logo.png" alt="Carnegie Mellon Rocket Command logo">
+          </figure>
+          <div class="project-text">
+            <p class="project-summary">Description in progress</p>
+          </div>
+        </div>
+      </section>
 
-          <!-- Rocket Command Card -->
-          <a class="project-card" href="rocket-command.html">
-            <div class="extracard-img">
-              <img src="images/rocket-command-logo.png" alt="Carnegie Mellon Rocket Command logo">
-            </div>
-            <h2>Rocket Command</h2>
-            <p>Carnegie Mellon Rocket Command</p>
-            <span class="card-arrow">→</span>
-          </a>
-
-          <!-- Solar Racing Card -->
-          <a class="project-card" href="solar-racing.html">
-            <div class="extracard-img">
-              <img src="images/solar-racing-logo.jpg" alt="Carnegie Mellon Solar Racing logo">
-            </div>
-            <h2>Solar Racing</h2>
-            <p>Carnegie Mellon Solar Racing</p>
-            <span class="card-arrow">→</span>
-          </a>
-
+      <section id="club-solar-racing" class="panel project-page project-chapter" data-nav="extracurriculars">
+        <p class="chapter-kicker">Extracurricular 05 / 05</p>
+        <h1>Carnegie Mellon Solar Racing</h1>
+        <div class="project-story">
+          <figure class="project-media is-logo">
+            <img src="images/solar-racing-logo.jpg" alt="Carnegie Mellon Solar Racing logo">
+          </figure>
+          <div class="project-text">
+            <p class="project-summary">Description in progress</p>
+          </div>
         </div>
       </section>
 
