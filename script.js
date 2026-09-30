@@ -53,39 +53,60 @@ document.addEventListener('DOMContentLoaded',()=>{
   })
   document.querySelectorAll('#skills .lab-icon *:not(.dash):not(.fl)').forEach(el=>el.setAttribute('pathLength','1'))
 
-  // multi-image project frames: crossfade every few seconds (paused on hover), dots to pick one
+  // multi-image project frames: crossfade to the next image each time its progress bar fills
+  // (4s; the bars hold while hovered), click a bar to pick one; starts over on each visit
   document.querySelectorAll('.project-media.is-gallery').forEach(frame=>{
     const imgs=[...frame.querySelectorAll('img')]
-    const dots=document.createElement('div')
-    dots.className='gallery-dots'
-    let i=0,timer=null
+    const bars=document.createElement('div')
+    bars.className='photo-bars'
+    let i=0
     const show=n=>{
       i=(n+imgs.length)%imgs.length
       imgs.forEach((img,k)=>img.classList.toggle('is-shown',k===i))
-      ;[...dots.children].forEach((d,k)=>d.setAttribute('aria-current',String(k===i)))
+      ;[...bars.children].forEach((b,k)=>{
+        b.classList.remove('is-current','is-done')
+        void b.offsetWidth // restart the fill animation
+        if(k<i) b.classList.add('is-done'); else if(k===i) b.classList.add('is-current')
+        b.setAttribute('aria-current',String(k===i))
+      })
+      frame.dispatchEvent(new Event('gallery:show'))
     }
     imgs.forEach((img,k)=>{
       const b=document.createElement('button')
       b.type='button'
       b.setAttribute('aria-label','Show image '+(k+1)+' of '+imgs.length)
       b.addEventListener('click',()=>show(k))
-      dots.appendChild(b)
+      b.addEventListener('animationend',()=>{if(k===i) show(i+1)})
+      bars.appendChild(b)
     })
-    frame.appendChild(dots)
+    frame.appendChild(bars)
     show(0)
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const start=()=>{if(!timer) timer=setInterval(()=>show(i+1),4500)}
-    const stop=()=>{clearInterval(timer);timer=null}
-    frame.addEventListener('mouseenter',stop)
-    frame.addEventListener('mouseleave',start)
-    start()
+    // photos and slides don't always fill their frame: keep the bars on the picture itself
+    // (drawings keep them along the bottom of their white panel)
+    const fit=()=>{
+      const img=imgs[i], W=img.offsetWidth, H=img.offsetHeight
+      if(!img.naturalWidth||!W) return
+      const r=getComputedStyle(img).objectFit==='contain'?Math.min(W/img.naturalWidth,H/img.naturalHeight):0
+      const w=r?img.naturalWidth*r:W, h=r?img.naturalHeight*r:H
+      const x=img.offsetLeft+(W-w)/2, y=img.offsetTop+(H-h)/2
+      Object.assign(bars.style,{left:x+14+'px',right:'auto',width:w-28+'px',top:y+h-28+'px',bottom:'auto'})
+    }
+    if(!frame.classList.contains('is-drawing')){
+      new ResizeObserver(fit).observe(frame)
+      imgs.forEach(img=>img.addEventListener('load',fit))
+      frame.addEventListener('gallery:show',fit)
+    }
+    new IntersectionObserver(([e])=>{
+      frame.classList.toggle('is-away',!e.isIntersecting)
+      if(e.isIntersecting) show(0)
+    },{threshold:0.3}).observe(frame)
   })
 
   // About photo stack: slides to the next portrait every 4s while About is on screen (a copy
   // of the first photo trails the last so the loop keeps sliding forward); the bars below
   // fill with each photo and can be clicked to jump to one
   document.querySelectorAll('.about-stack').forEach(stack=>{
-    const track=stack.querySelector('.about-track'), bars=stack.querySelector('.about-bars')
+    const track=stack.querySelector('.about-track'), bars=stack.querySelector('.photo-bars')
     const n=track.children.length, HOLD=4000
     const still=window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const copy=track.firstElementChild.cloneNode()

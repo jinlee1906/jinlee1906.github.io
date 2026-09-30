@@ -909,7 +909,7 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 .project-media.is-drawing { background: #fff; padding: 12px; }
 .project-media.is-drawing:hover img { transform: scale(1.03); }
 
-/* several images: stacked in one frame and crossfaded (script.js), with dots to pick one */
+/* several images: stacked in one frame and crossfaded (script.js), with progress bars to pick one */
 .project-media.is-gallery { width: 100%; aspect-ratio: 16 / 10; max-height: 62vh; }
 .project-page .project-media.is-gallery img {
   position: absolute;
@@ -921,26 +921,6 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   opacity: 0;
 }
 .project-page .project-media.is-gallery img.is-shown { opacity: 1; }
-.gallery-dots {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  z-index: 1;
-}
-.gallery-dots button {
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: 1px solid rgba(0,0,0,.45);
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-.gallery-dots button[aria-current="true"] { background: rgba(0,0,0,.6); }
 
 /* line-art frame for a project without a photo */
 .project-media.is-art {
@@ -1364,8 +1344,6 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
    ========================================= */
 .project-media.is-photos { aspect-ratio: 4 / 3; }
 .project-page .project-media.is-photos img { inset: 0; width: 100%; height: 100%; }
-.project-media.is-photos .gallery-dots button { border-color: rgba(var(--overlay-rgb), .5); }
-.project-media.is-photos .gallery-dots button[aria-current="true"] { background: rgba(var(--overlay-rgb), .75); }
 .project-media.is-logo {
   width: min(100%, 440px);
   aspect-ratio: 1;
@@ -1530,15 +1508,6 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   border-radius: 6px;
   cursor: zoom-in;
 }
-.project-text > .slide-gallery .gallery-dots {
-  left: 12px;
-  right: auto;
-  bottom: auto;
-  top: calc(min(100%, 100cqw * 9 / 16) - 22px);   /* inside the frame's bottom edge */
-  justify-content: flex-start;
-}
-.project-text > .slide-gallery .gallery-dots button { border-color: rgba(var(--overlay-rgb), .5); }
-.project-text > .slide-gallery .gallery-dots button[aria-current="true"] { background: rgba(var(--overlay-rgb), .75); }
 
 /* full-size view for gallery slides */
 .lightbox {
@@ -1620,7 +1589,8 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 
 /* =========================================
    ABOUT PHOTO STACK: the portraits slide past one after another every 4s (script.js);
-   the bars along the bottom fill while each photo is up. Every photo is cropped to the
+   the progress bars along the bottom (shared with the project galleries) fill while each
+   photo is up. Every photo is cropped to the
    same tall frame, which takes the full height the page leaves it in story view.
    ========================================= */
 .about-stack { position: relative; aspect-ratio: 2 / 3; }
@@ -1637,15 +1607,16 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 }
 .about-stack img[src*="mascot"] { object-position: 60% 55%; }
 .about-stack img[src*="gym"] { object-position: center 45%; }
-.about-bars {
+.photo-bars {
   position: absolute;
   left: 14px;
   right: 14px;
   bottom: 14px;
+  z-index: 1;
   display: flex;
   gap: 6px;
 }
-.about-bars button {
+.photo-bars button {
   flex: 1;
   height: 14px;
   padding: 5px 0;
@@ -1653,7 +1624,7 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   background: none;
   cursor: pointer;
 }
-.about-bars button::before {
+.photo-bars button::before {
   content: '';
   display: block;
   height: 4px;
@@ -1661,8 +1632,13 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   background: rgba(255, 255, 255, 0.35) linear-gradient(var(--accent), var(--accent)) no-repeat 0 0 / 0% 100%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
-.about-bars .is-done::before { background-size: 100% 100%; }
-.about-bars .is-current::before { animation: aboutBar 4s linear forwards; }
+.photo-bars .is-done::before { background-size: 100% 100%; }
+.photo-bars .is-current::before { animation: aboutBar 4s linear forwards; }
+/* galleries hold still while hovered and while off screen */
+.is-gallery:hover .photo-bars button::before { animation-play-state: paused; }
+.is-gallery.is-away .photo-bars button::before { animation: none; }
+/* drawings and slides are light, so their bars get a dark track */
+:is(.is-drawing, .is-slides) .photo-bars button::before { background-color: rgba(0, 0, 0, 0.14); box-shadow: none; }
 @keyframes aboutBar { to { background-size: 100% 100%; } }
 :root[data-layout="story"] main .about-stack {
   height: calc(100vh - 230px);
@@ -1673,5 +1649,5 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   :root[data-layout="story"] main .about-stack { height: auto; width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .about-bars .is-current::before { animation: none; background-size: 100% 100%; }
+  .photo-bars .is-current::before { animation: none; background-size: 100% 100%; }
 }
