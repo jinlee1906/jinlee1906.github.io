@@ -81,19 +81,22 @@ document.addEventListener('DOMContentLoaded',()=>{
     start()
   })
 
-  // project videos: load only when their page comes near, play while on screen, pause when not;
-  // with reduced motion they don't autoplay and get controls instead
+  // project videos: start loading when their page comes near; play while any of the video is
+  // on screen, and pause + mute the moment it leaves (so sound never follows you down the page).
+  // With reduced motion they don't autoplay and get controls instead
   const stillVideo=window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const loadVideo=v=>{if(!v.src){v.src=v.dataset.src;if(stillVideo){v.controls=true;v.preload='metadata'}}}
+  const nearIo=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting) loadVideo(en.target)})
+  },{rootMargin:'50% 0px'})
   const videoIo=new IntersectionObserver(entries=>{
     entries.forEach(en=>{
       const v=en.target
-      if(en.isIntersecting){
-        if(!v.src){v.src=v.dataset.src;if(stillVideo){v.controls=true;v.preload='metadata'}}
-        if(!stillVideo) v.play().catch(()=>{})
-      }else if(!v.paused) v.pause()
+      if(en.isIntersecting){loadVideo(v);if(!stillVideo) v.play().catch(()=>{})}
+      else{if(!v.paused) v.pause();v.muted=true}
     })
-  },{rootMargin:'50% 0px'})
-  document.querySelectorAll('video[data-src]').forEach(v=>videoIo.observe(v))
+  },{threshold:0})
+  document.querySelectorAll('video[data-src]').forEach(v=>{nearIo.observe(v);videoIo.observe(v)})
 
   // sound toggle on a project video (starts muted so it can autoplay; one tap turns sound on)
   document.querySelectorAll('.video-sound').forEach(btn=>{

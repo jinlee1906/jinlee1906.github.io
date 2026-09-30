@@ -194,9 +194,11 @@ LOADER_HEAD_SCRIPT = (
 
 
 def fingerprint_videos(markup):
-    """Version local video URLs like the CSS/JS, so a replaced video is never served from a
-    browser's stale cache (a new file under the same name kept playing the old one)."""
-    return re.sub(r'((?:data-src|src)=")(images/[^"?]+\.mp4)(")',
+    """Version local video and poster URLs like the CSS/JS, so a replaced video is never
+    served from a browser's stale cache (a new file under the same name kept playing the old one)."""
+    markup = re.sub(r'((?:data-src|src)=")(images/[^"?]+\.mp4)(")',
+                    lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
+    return re.sub(r'(poster=")(images/[^"?]+)(")',
                   lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
 
 
