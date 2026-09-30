@@ -1319,3 +1319,44 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 :root[data-layout="story"] .tone-flip { color: var(--text); }
 /* the fixed toggles crossfade along with the backdrop */
 .view-toggle { transition: transform .2s ease, border-color 1.2s ease, background-color 1.2s ease, color 1.2s ease; }
+
+/* =========================================
+   MOVING LAYERS (story view, homepage): a big outlined chapter number sits behind each
+   chapter (like royleejr.com's project numbers), and while a chapter scrolls its number,
+   media and text drift at different speeds. story.js sets --p (0 when the page has landed)
+   and data-mark. Uses the `translate` property so it stacks with the entrance transforms.
+   ========================================= */
+:root[data-layout="story"] main .panel { position: relative; isolation: isolate; }
+:root[data-layout="story"] main .panel[data-mark]::before {
+  content: attr(data-mark);
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: -1;
+  font-size: min(44vh, 30vw);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(var(--accent-rgb), 0.22);
+  transform: translateY(-50%);
+  translate: 0 calc(var(--p, 0) * 55vh);
+  pointer-events: none;
+  user-select: none;
+}
+/* the number rises into place as the chapter enters */
+:root[data-layout="story"] main .panel.will-reveal[data-mark]::before { opacity: 0; transition: opacity 1.4s ease 0.2s; }
+:root[data-layout="story"] main .panel.in-view[data-mark]::before { opacity: 1; }
+
+/* everything under the title drifts a little; the media layers drift more */
+:root[data-layout="story"] main .panel > :not(h1):not(.chapter-kicker) { translate: 0 calc(var(--p, 0) * 7vh); }
+:root[data-layout="story"] main .panel :is(.project-media, .about-photo, .exp-media) { translate: 0 calc(var(--p, 0) * 14vh); }
+:root[data-layout="story"] main .panel .exp-photo + .exp-photo { translate: 0 calc(var(--p, 0) * 8vh); }
+/* skills rows fan out: each lower row trails a little further */
+:root[data-layout="story"] main #skills > .skill-group:nth-of-type(2) { translate: 0 calc(var(--p, 0) * 12vh); }
+:root[data-layout="story"] main #skills > .skill-group:nth-of-type(3) { translate: 0 calc(var(--p, 0) * 17vh); }
+:root[data-layout="story"] main #skills > .skill-coursework { translate: 0 calc(var(--p, 0) * 22vh); }
+
+/* story view: the resume preview sizes to the space below the buttons so Resume stays one screen */
+:root[data-layout="story"] main #resume .resume-preview { max-width: none; width: fit-content; align-self: flex-start; }
+:root[data-layout="story"] main #resume .resume-preview img { width: auto; max-width: 100%; max-height: calc(88vh - 215px); }

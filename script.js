@@ -11,13 +11,19 @@ document.addEventListener('DOMContentLoaded',()=>{
     })
   })
 
-  // fade-in observer
+  // fade-in observer. In story view a chapter resets once it is fully off screen, so its
+  // entrance plays again every time you scroll back to it (like royleejr.com)
   const io=new IntersectionObserver((entries)=>{
-    entries.forEach(en=>{
-      if(en.isIntersecting){en.target.classList.add('in-view');io.unobserve(en.target)}
-    })
+    entries.forEach(en=>{if(en.isIntersecting) en.target.classList.add('in-view')})
   },{threshold:0.12})
+  const replay=!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const resetIo=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(!en.isIntersecting&&replay&&document.documentElement.dataset.layout!=='sidebar') en.target.classList.remove('in-view')
+    })
+  },{threshold:0})
   document.querySelectorAll('.panel, .project-card').forEach(el=>{el.classList.add('will-reveal');io.observe(el)})
+  document.querySelectorAll('main .panel').forEach(el=>resetIo.observe(el))
 
   // scroll spy for sidebar nav
   const sections=document.querySelectorAll('main .panel[id]');

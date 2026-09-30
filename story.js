@@ -48,6 +48,27 @@
     [hero, ...chapters].forEach(el => midline.observe(el));
   }
 
+  // ---- parallax: inside each chapter the big chapter number, the media and the text drift at
+  // different speeds while it scrolls (--p = chapter top / screen height; 0 once it has
+  // landed, so a settled page looks exactly as laid out) ----
+  if (hero && !reduceMotion) {
+    const panels = [...document.querySelectorAll('main .panel')];
+    panels.forEach((c, i) => { c.dataset.mark = String(i + 1).padStart(2, '0'); });
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const h = window.innerHeight;
+      for (const c of panels) {
+        const p = c.getBoundingClientRect().top / h;
+        if (p > -1.5 && p < 1.5) c.style.setProperty('--p', p.toFixed(4));
+      }
+    };
+    const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
+  }
+
   // ---- 2. page-by-page scrolling ----
   if (reduceMotion || !hero) return;
   const DURATION = 1400;                                  // ms per page glide
