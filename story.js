@@ -108,6 +108,7 @@
   let lockUntil = 0;
   const stepPage = dir => {
     if (root.classList.contains('is-loading')) return;   // the loading screen is still up
+    if (document.querySelector('dialog[open]')) return;   // a full-size slide is open
     const now = performance.now();
     if (now < lockUntil) { lockUntil = Math.max(lockUntil, now + 240); return; }
     const y = glide ? glide.to : window.scrollY;

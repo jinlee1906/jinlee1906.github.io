@@ -141,6 +141,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     v.addEventListener('volumechange',sync)
   })
 
+  // click a gallery slide to see it full size (Esc, the button, or a click closes it)
+  const slides=document.querySelectorAll('.slide-gallery img')
+  if(slides.length){
+    const box=document.createElement('dialog')
+    box.className='lightbox'
+    box.innerHTML='<button type="button">Close</button><img alt="">'
+    document.body.appendChild(box)
+    const big=box.querySelector('img')
+    box.addEventListener('click',()=>box.close())
+    slides.forEach(img=>img.addEventListener('click',()=>{big.src=img.src;big.alt=img.alt;box.showModal()}))
+  }
+
   // light/dark toggle; the saved theme is applied earlier by an inline <head> script to avoid a flash
   const root=document.documentElement;
   const toggle=document.querySelector('.theme-toggle');

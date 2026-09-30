@@ -1491,3 +1491,76 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 .video-sound[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #111; }
 .video-sound[aria-pressed="true"] svg { fill: #111; }
 .video-sound[aria-pressed="true"] svg .stroke { stroke: #111; }
+
+/* slide gallery under a write-up (Bananas): fills the room left beside the video like the
+   Perfumery TikTok card, keeping the slides' 16:9 shape; click a slide to see it full size */
+.project-story:has(.slide-gallery) { align-items: stretch; }
+.project-story:has(.slide-gallery) > .project-media { align-self: center; }
+.project-text:has(> .slide-gallery) { display: flex; flex-direction: column; container-type: inline-size; }
+.project-text > .slide-gallery {
+  flex: 1 1 0;
+  min-height: 170px;
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  aspect-ratio: auto;
+  max-height: none;
+  overflow: visible;
+  border-radius: 0;
+  justify-self: start;
+  background: none;
+}
+.project-text > .slide-gallery::before {
+  /* sizes the frame: as tall as the space allows, as wide as 16:9 and the column allow */
+  content: '';
+  display: block;
+  height: 100%;
+  max-height: calc(100cqw * 9 / 16);
+  aspect-ratio: 16 / 9;
+}
+.project-page .project-text > .slide-gallery img {
+  inset: 0 auto auto 0;
+  width: auto;
+  height: 100%;
+  max-height: calc(100cqw * 9 / 16);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: zoom-in;
+}
+.project-text > .slide-gallery .gallery-dots {
+  left: 12px;
+  right: auto;
+  bottom: auto;
+  top: calc(min(100%, 100cqw * 9 / 16) - 22px);   /* inside the frame's bottom edge */
+  justify-content: flex-start;
+}
+.project-text > .slide-gallery .gallery-dots button { border-color: rgba(var(--overlay-rgb), .5); }
+.project-text > .slide-gallery .gallery-dots button[aria-current="true"] { background: rgba(var(--overlay-rgb), .75); }
+
+/* full-size view for gallery slides */
+.lightbox {
+  width: min(94vw, 1600px);
+  max-width: none;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  overflow: visible;
+}
+.lightbox::backdrop { background: rgba(0,0,0,.82); }
+.lightbox img { display: block; width: 100%; height: auto; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+.lightbox button {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 999px;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  font: 600 .85rem/1 Lora, Georgia, serif;
+  cursor: pointer;
+}
