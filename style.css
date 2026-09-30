@@ -1386,7 +1386,8 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
   border: none;
   border-radius: 0;
 }
-.project-page .club-facts { color: var(--muted); line-height: 1.7; }
+/* facts: labels in the text color, the values (President, Active, ...) in the accent */
+.project-page .club-facts { color: var(--accent-text); line-height: 1.7; }
 .project-page .club-facts strong { color: var(--text); }
 
 /* =========================================
@@ -1564,3 +1565,10 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   font: 600 .85rem/1 Lora, Georgia, serif;
   cursor: pointer;
 }
+
+/* extracurricular chapters (story view): bigger type that scales with the screen so the
+   write-up fills more of the page */
+:root[data-layout="story"] main .club-page .project-text .club-facts { font-size: clamp(1.05rem, 2.5vh, 1.55rem); line-height: 1.6; }
+:root[data-layout="story"] main .club-page .project-text .project-summary { font-size: clamp(1.2rem, 3.1vh, 2rem); line-height: 1.5; }
+:root[data-layout="story"] main .club-page .project-text p { font-size: clamp(1.02rem, 2.4vh, 1.5rem); line-height: 1.6; }
+:root[data-layout="story"] main .club-page .club-badge { height: clamp(48px, 9vh, 104px); margin-bottom: 2vh; }

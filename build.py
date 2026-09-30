@@ -126,11 +126,13 @@ def story_chapters(files, section, label, prefix):
         body = re.sub(r'\s*<p><a class="back-link"[^\n]*</p>', "", body)
         anchor = section if n == 1 else prefix + file.removesuffix(".html")
         flipped = " is-flipped" if n % 2 == 0 else ""
-        body = body.replace(
-            '<section class="panel project-page">',
-            f'<section id="{anchor}" class="panel project-page project-chapter{flipped}" data-nav="{section}">\n'
-            f'        <p class="chapter-kicker">{label} {n:02d} / {total:02d}</p>',
-            1,
+        # keep any extra classes the page declares (e.g. club-page)
+        body = re.sub(
+            r'<section class="panel project-page([^"]*)">',
+            lambda m: f'<section id="{anchor}" class="panel project-page{m.group(1)} project-chapter{flipped}" data-nav="{section}">\n'
+                      f'        <p class="chapter-kicker">{label} {n:02d} / {total:02d}</p>',
+            body,
+            count=1,
         )
         chapters.append(body.rstrip())
     return "\n\n".join(chapters)
