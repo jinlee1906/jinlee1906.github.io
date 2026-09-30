@@ -21,18 +21,30 @@
     layout.insertBefore(backdrop, layout.querySelector('aside, main'));
 
     const chapters = [...document.querySelectorAll('main .panel')];
+    // every other chapter (About, Brandstorm, Bananas, ...) flips to the opposite theme; the
+    // footer matches the last chapter so it stays readable
+    chapters.forEach((c, i) => c.classList.toggle('tone-flip', i % 2 === 0));
+    const footer = document.querySelector('.site-footer');
+    if (footer) footer.classList.toggle('tone-flip', (chapters.length - 1) % 2 === 0);
+
+    // the backdrop takes the current chapter's own page color, so it crossfades black <-> white
+    let current = null;
+    const paint = () => {
+      if (!current) { backdrop.classList.remove('is-on'); delete root.dataset.tone; return; }
+      backdrop.style.backgroundColor = getComputedStyle(current).getPropertyValue('--page-bg');
+      backdrop.classList.add('is-on');
+      if (current.classList.contains('tone-flip') && storyView()) root.dataset.tone = 'flip';
+      else delete root.dataset.tone;
+    };
     const midline = new IntersectionObserver(entries => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
-        const i = chapters.indexOf(e.target);
-        if (i < 0) {
-          backdrop.classList.remove('is-on');           // back on the first page: molecules visible
-        } else {
-          backdrop.dataset.chapter = String((i % 4) + 1);
-          backdrop.classList.add('is-on');
-        }
+        current = chapters.includes(e.target) ? e.target : null;   // null: back on the first page, molecules visible
+        paint();
       }
     }, { rootMargin: '-50% 0px -50% 0px' });            // whichever page crosses the middle of the screen
+    // re-read the colors when the theme or view changes
+    new MutationObserver(paint).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-layout'] });
     [hero, ...chapters].forEach(el => midline.observe(el));
   }
 
