@@ -85,15 +85,45 @@
   <script>
     (function () {
       var root = document.documentElement, loader = document.querySelector('.loader');
-      if (!root.classList.contains('is-loading')) { loader.remove(); return; }
+      // welcome-page entrance: split the name into letters and the description into words so
+      // they can rise in one after another, then swap hero-wait for hero-in (style.css)
+      function heroIn() {
+        var name = document.querySelector('.hero-name'), sub = document.querySelector('.hero-subtitle');
+        if (name && !name.dataset.split) {
+          name.dataset.split = '1';
+          name.setAttribute('aria-label', name.textContent);
+          name.innerHTML = name.textContent.split('').map(function (c, i) {
+            return '<span class="ch" aria-hidden="true" style="--i:' + i + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>';
+          }).join('');
+        }
+        if (sub && !sub.dataset.split) {
+          sub.dataset.split = '1';
+          sub.innerHTML = sub.textContent.trim().split(/\s+/).map(function (w, i) {
+            return '<span class="wd" style="--i:' + i + '">' + w + '</span>';
+          }).join(' ');
+        }
+        root.classList.remove('hero-wait');
+        root.classList.add('hero-in');
+      }
+      function whenReady(fn) {
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn();
+      }
+      if (!root.classList.contains('is-loading')) {
+        loader.remove();
+        if (root.classList.contains('hero-wait')) whenReady(function () { requestAnimationFrame(heroIn); });
+        return;
+      }
       var pct = loader.querySelector('.loader-pct'), bar = loader.querySelector('.loader-bar span');
-      var start = performance.now(), FILL = 4500, END = 5300;
+      var start = performance.now(), FILL = 4500;
       (function tick(now) {
         var p = Math.min(1, (now - start) / FILL);
         pct.textContent = Math.round(p * 100) + '%';
         bar.style.transform = 'scaleX(' + p + ')';
         if (p < 1) requestAnimationFrame(tick);
       })(start);
-      setTimeout(function () { root.classList.remove('is-loading'); loader.remove(); }, END);
+      // 4.5s the diagram lifts away, 4.75s the curtain wipes up (loader.css) while the
+      // welcome page plays its entrance underneath, 5.75s the loader is gone
+      setTimeout(function () { whenReady(heroIn); }, 4850);
+      setTimeout(function () { root.classList.remove('is-loading'); loader.remove(); }, 5750);
     })();
   </script>

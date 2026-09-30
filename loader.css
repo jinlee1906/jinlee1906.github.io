@@ -15,9 +15,24 @@ html.is-loading .loader {
   padding: 24px 4vw;
   background: var(--page-bg);
   color: var(--text);
-  animation: loaderOut 0.7s ease 4.6s forwards;
+  animation: loaderWipe 1s cubic-bezier(.75,0,.25,1) 4.75s forwards;
 }
-@keyframes loaderOut { to { opacity: 0; visibility: hidden; } }
+/* exit: the diagram and progress lift away, then the whole screen slides up like a curtain;
+   its glowing accent edge (just below the screen until it moves) shows the lift even though
+   the curtain and the page share a background color */
+@keyframes loaderWipe { to { transform: translateY(-100%); visibility: hidden; } }
+html.is-loading .loader::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 24px 4px rgba(var(--accent-rgb), 0.55);
+}
+html.is-loading .loader > * { animation: loaderLift 0.55s cubic-bezier(.5,0,.75,0) 4.5s forwards; }
+@keyframes loaderLift { to { opacity: 0; transform: translateY(-48px); } }
 
 .loader-title {
   margin: 0;

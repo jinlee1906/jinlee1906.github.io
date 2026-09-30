@@ -1088,9 +1088,6 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 }
 .social-card:hover img { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.18); }
 .project-page .social-card img { width: 100%; max-width: none; max-height: none; }
-@media (min-width: 769px) and (max-height: 780px) {
-  :root[data-layout="story"] main .social-card { max-width: 260px; margin-top: 12px; }
-}
 
 /* portrait photo/video: the media column shrinks to the image so the write-up gets the room */
 .project-story:has(> .project-media.is-photo, > .project-media.is-video) { grid-template-columns: auto minmax(0, 1fr); }
@@ -1401,3 +1398,63 @@ a:focus{outline:3px solid rgba(var(--accent-rgb),0.12);outline-offset:3px}
 :root[data-layout="story"] main .panel > h1::after { display: none; }
 :root[data-layout="story"] main .panel > h1 { padding-bottom: 0; }
 :root[data-layout="story"] .site-footer { border-top: none; }
+
+/* Perfumery: the TikTok card grows into all the room left beside the video. The write-up
+   column stretches to the video's height and the card takes whatever is left (never smaller
+   than before, never wider than the column: 100cqw / 2.1 is the column width over the
+   screenshot's aspect ratio). */
+.project-story:has(.social-card) { align-items: stretch; }
+.project-story:has(.social-card) > .project-media { align-self: center; }
+.project-text:has(> .social-card) { display: flex; flex-direction: column; container-type: inline-size; }
+.project-text > .social-card {
+  flex: 1 1 0;
+  min-height: 170px;
+  max-width: 100%;
+  margin-top: 16px;
+}
+.project-text > .social-card img {
+  flex: 1 1 0;
+  min-height: 0;
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100cqw / 2.1);
+  align-self: flex-start;
+  object-fit: contain;
+}
+
+/* =========================================
+   WELCOME PAGE ENTRANCE (homepage): after the loading curtain lifts (or right away on later
+   visits) the photo opens as a circle, the name rises letter by letter, the description word
+   by word, then the buttons and the arrow. hero-wait / hero-in are set on <html> by the head
+   script and partials/loader.html; reduced motion skips all of it.
+   ========================================= */
+html.hero-wait :is(.hero-photo, .hero-name, .hero-subtitle, .hero-buttons, .hero-arrow, .hex-background) { opacity: 0; }
+
+html.hero-in .hero-photo { animation: heroPhoto 1.3s cubic-bezier(.2,.8,.25,1.1) backwards; }
+@keyframes heroPhoto {
+  0%   { opacity: 0; transform: scale(0.35); clip-path: circle(0% at 50% 50%); }
+  60%  { opacity: 1; transform: scale(1.06); clip-path: circle(50% at 50% 50%); }
+  100% { transform: scale(1); clip-path: circle(50% at 50% 50%); }
+}
+html.hero-in .hero-photo img { animation: heroPhotoImg 1.8s cubic-bezier(.2,.7,.2,1) backwards; }
+@keyframes heroPhotoImg { from { transform: scale(1.4); } }
+
+.hero-name .ch { display: inline-block; }
+html.hero-in .hero-name .ch {
+  animation: heroLetter 0.9s cubic-bezier(.2,.8,.2,1) calc(0.45s + var(--i) * 55ms) backwards;
+}
+@keyframes heroLetter { from { opacity: 0; transform: translateY(0.7em) rotate(8deg); filter: blur(6px); } }
+
+.hero-subtitle .wd { display: inline-block; }
+html.hero-in .hero-subtitle .wd {
+  animation: heroWord 0.8s cubic-bezier(.2,.7,.2,1) calc(1s + var(--i) * 70ms) backwards;
+}
+@keyframes heroWord { from { opacity: 0; transform: translateY(18px); } }
+
+html.hero-in .hero-button { animation: heroPop 0.7s cubic-bezier(.2,.8,.25,1.2) 1.55s backwards; }
+html.hero-in .hero-button + .hero-button { animation-delay: 1.7s; }
+@keyframes heroPop { from { opacity: 0; transform: translateY(20px) scale(0.85); } }
+
+html.hero-in .hero-arrow { animation: heroFade 1s ease 2.1s backwards; }
+html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
+@keyframes heroFade { from { opacity: 0; } }

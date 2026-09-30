@@ -30,8 +30,8 @@ PAGES = [
     {"file": "perfume.html", "title": "Perfumery",
      "description": "Perfume design and formulation notes by Jin Lee.",
      "sidebar": "project", "hex_count": 6},
-    {"file": "brandstorm.html", "title": "L'oreal Brandstorm",
-     "description": "L'oreal Brandstorm wearable perfume watch concept by Jin Lee.",
+    {"file": "brandstorm.html", "title": "L'Oréal Brandstorm",
+     "description": "L'Oréal Brandstorm wearable perfume watch concept by Jin Lee.",
      "sidebar": "project", "hex_count": 6},
     {"file": "venturiflowmeter.html", "title": "Venturi Flow Meter: 06-261",
      "description": "Venturi flow meter CAD and COMSOL simulation project by Jin Lee.",
@@ -184,10 +184,11 @@ SITE_FOOTER = f"""    <footer class="site-footer">
 
 
 LOADER = (PARTIALS / "loader.html").read_text()
-# homepage only: show the loading screen on the first visit of a browser session
+# homepage only: show the loading screen on the first visit of a browser session, and hold
+# the welcome page back (hero-wait) until its entrance plays
 LOADER_HEAD_SCRIPT = (
-    "<script>(function(d){try{if(!sessionStorage.getItem('loaded')"
-    "&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('is-loading');"
+    "<script>(function(d){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;"
+    "d.classList.add('hero-wait');if(!sessionStorage.getItem('loaded')){d.classList.add('is-loading');"
     "sessionStorage.setItem('loaded','1')}}catch(e){}})(document.documentElement)</script>\n  "
 )
 
