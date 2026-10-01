@@ -194,6 +194,17 @@ LOADER_HEAD_SCRIPT = (
     "sessionStorage.setItem('loaded','1')}}catch(e){}})(document.documentElement)</script>\n  "
 )
 
+# Microsoft Clarity (heatmaps and session recordings), on every page; skipped on local
+# previews so testing the site never shows up in the stats
+CLARITY_ID = "yqzxaziqtt"
+CLARITY = (
+    '<script>(function(c,l,a,r,i,t,y){if(/^(localhost|127\\.0\\.0\\.1|)$/.test(l.location.hostname))return;'
+    'c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};'
+    't=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;'
+    'y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);'
+    '})(window,document,"clarity","script","' + CLARITY_ID + '")</script>\n  '
+)
+
 
 def fingerprint_videos(markup):
     """Version local video and poster URLs like the CSS/JS, so a replaced video is never
@@ -243,7 +254,7 @@ def build_page(page):
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <script>(function(d){{d.dataset.layout='story';try{{if(localStorage.getItem('theme')==='light')d.dataset.theme='light';if(localStorage.getItem('layout')==='sidebar')d.dataset.layout='sidebar'}}catch(e){{}}}})(document.documentElement)</script>
-  {LOADER_HEAD_SCRIPT if is_home else ""}<link rel="preconnect" href="https://fonts.googleapis.com">
+  {LOADER_HEAD_SCRIPT if is_home else ""}{CLARITY}<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
   <link rel="stylesheet" href="{asset('style.css')}">
