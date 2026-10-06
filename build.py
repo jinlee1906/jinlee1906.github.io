@@ -116,15 +116,50 @@ PROJECT_CHAPTERS = ["perfume.html", "brandstorm.html", "venturiflowmeter.html", 
 CLUB_CHAPTERS = ["oc.html", "ssa.html", "tcl.html", "rocket-command.html", "solar-racing.html"]
 
 
-def story_chapters(files, section, label, prefix):
-    """The first chapter carries #<section> so nav links land on it; data-nav keeps the
-    sidebar link for <section> highlighted on every chapter of the run."""
+# one line under each project's name on the Projects directory page
+PROJECT_TAGLINES = {
+    "perfume.html": "Formulating with 200+ aromachemicals, oils, and bases",
+    "brandstorm.html": "Emoi, a wearable that dispenses a calming fragrance",
+    "venturiflowmeter.html": "CAD and COMSOL for a 3D-printed artery flow meter",
+    "bananas.html": "Measuring potassium by titration and AAS",
+}
+
+
+def project_directory(files):
+    """A contents page ahead of the project chapters: each project sits on alternating sides
+    of a center line and links to its chapter. It carries #projects, so nav links land here."""
+    items = []
+    for n, file in enumerate(files, 1):
+        body = (CONTENT / file).read_text()
+        name = html.unescape(re.search(r"<h1>(.*?)</h1>", body).group(1)).split(":")[0].strip()
+        items.append(
+            f'          <li class="pindex-item" style="--i:{n - 1}">\n'
+            f'            <a href="#project-{file.removesuffix(".html")}">\n'
+            f'              <span class="pindex-num" aria-hidden="true">{n:02d}</span>\n'
+            f'              <span class="pindex-body">\n'
+            f'                <span class="pindex-label">Project {n}</span>\n'
+            f'                <span class="pindex-title">{html.escape(name)}</span>\n'
+            f'                <span class="pindex-tag">{html.escape(PROJECT_TAGLINES[file])}</span>\n'
+            f'              </span>\n'
+            f'            </a>\n'
+            f'          </li>'
+        )
+    return ('<section id="projects" class="panel project-index" data-nav="projects">\n'
+            '        <h1>Projects</h1>\n'
+            '        <ol class="pindex">\n' + "\n".join(items) + '\n        </ol>\n'
+            '      </section>')
+
+
+def story_chapters(files, section, label, prefix, first_is_section=True):
+    """The first chapter carries #<section> so nav links land on it (unless a directory page
+    already does); data-nav keeps the sidebar link for <section> highlighted on every
+    chapter of the run."""
     chapters = []
     total = len(files)
     for n, file in enumerate(files, 1):
         body = (CONTENT / file).read_text()
         body = re.sub(r'\s*<p><a class="back-link"[^\n]*</p>', "", body)
-        anchor = section if n == 1 else prefix + file.removesuffix(".html")
+        anchor = section if n == 1 and first_is_section else prefix + file.removesuffix(".html")
         flipped = " is-flipped" if n % 2 == 0 else ""
         # keep any extra classes the page declares (e.g. club-page)
         body = re.sub(
@@ -219,7 +254,8 @@ def build_page(page):
     content = (CONTENT / page["file"]).read_text()
     content = content.replace(
         "      <!-- @project-chapters -->",
-        story_chapters(PROJECT_CHAPTERS, "projects", "Project", "project-"),
+        project_directory(PROJECT_CHAPTERS) + "\n\n      "
+        + story_chapters(PROJECT_CHAPTERS, "projects", "Project", "project-", first_is_section=False),
     ).replace(
         "      <!-- @club-chapters -->",
         story_chapters(CLUB_CHAPTERS, "extracurriculars", "Extracurricular", "club-"),

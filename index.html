@@ -25,11 +25,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
-  <link rel="stylesheet" href="style.css?v=76eb3d54">
+  <link rel="stylesheet" href="style.css?v=7b322cc0">
   <link rel="stylesheet" href="hexagons.css?v=0e62f196">
   <link rel="stylesheet" href="loader.css?v=c57a6fd0">
-  <script src="script.js?v=22f60bf8" defer></script>
-  <script src="story.js?v=48f00c66" defer></script>
+  <script src="script.js?v=46b50603" defer></script>
+  <script src="story.js?v=098e9792" defer></script>
 </head>
 <body>
   <!-- ===== LOADING SCREEN (homepage, once per visit): liquid runs through a process flow
@@ -314,8 +314,15 @@
               <figure class="transfer-school"><span class="transfer-logo"><img src="images/logo-cmu.png" alt=""></span><figcaption>CMU · 2025–</figcaption></figure>
             </div>
             <p>This past summer I interned with GP EnergyTech in Hong Kong and China, building and testing nickel-zinc cells and helping run a factory floor of 500+ people. This October I'm joining Dr. Carmel Majidi's Soft Machines Lab to research gecko-inspired padding for soft aquatic robots.</p>
-            <p>Outside of class I lead the Singapore Students Association as president, lift, make perfume (I'm working toward launching my own brand, REN Perfumes), cook some really good meal preps, and am slowly learning bass guitar.</p>
-            <p>Want to talk batteries, robots, or fragrance? Reach me at <a href="mailto:jinlee2@andrew.cmu.edu">jinlee2@andrew.cmu.edu</a>.</p>
+            <p class="about-list-intro">Outside of class, I:</p>
+            <ul class="about-list">
+              <li>make <a class="about-link" href="#project-perfume">perfume</a> and am working toward launching my own brand, REN Perfumes</li>
+              <li>lead the Singapore Students Association as president</li>
+              <li>lift</li>
+              <li>cook some really good meal preps</li>
+              <li>am slowly learning bass guitar</li>
+            </ul>
+            <p>Feel free to contact me at <a href="mailto:jinlee2@andrew.cmu.edu">jinlee2@andrew.cmu.edu</a>.</p>
             <div class="about-links">
               <a href="https://www.linkedin.com/in/wenjinlee/" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.6 4.1 5.5 3 5.5S1 4.6 1 3.5 1.9 1.5 3 1.5s1.98.9 1.98 2zm.02 4.5H1v15h4V8zm7 0h-3v15h4v-8.2c0-2.3 3-2.5 3 0V23h4V13.1c0-5.3-5.7-5.1-7-.5V8z"/></svg>
@@ -334,8 +341,54 @@
         </div>
       </section>
 
-      <!-- ===== PROJECTS: one full chapter per project, inlined by build.py from content/<project>.html ===== -->
-      <section id="projects" class="panel project-page project-chapter" data-nav="projects">
+      <!-- ===== PROJECTS: a directory page, then one full chapter per project, both inlined by build.py from content/<project>.html ===== -->
+<section id="projects" class="panel project-index" data-nav="projects">
+        <h1>Projects</h1>
+        <ol class="pindex">
+          <li class="pindex-item" style="--i:0">
+            <a href="#project-perfume">
+              <span class="pindex-num" aria-hidden="true">01</span>
+              <span class="pindex-body">
+                <span class="pindex-label">Project 1</span>
+                <span class="pindex-title">Perfumery</span>
+                <span class="pindex-tag">Formulating with 200+ aromachemicals, oils, and bases</span>
+              </span>
+            </a>
+          </li>
+          <li class="pindex-item" style="--i:1">
+            <a href="#project-brandstorm">
+              <span class="pindex-num" aria-hidden="true">02</span>
+              <span class="pindex-body">
+                <span class="pindex-label">Project 2</span>
+                <span class="pindex-title">L&#x27;Oréal Brandstorm</span>
+                <span class="pindex-tag">Emoi, a wearable that dispenses a calming fragrance</span>
+              </span>
+            </a>
+          </li>
+          <li class="pindex-item" style="--i:2">
+            <a href="#project-venturiflowmeter">
+              <span class="pindex-num" aria-hidden="true">03</span>
+              <span class="pindex-body">
+                <span class="pindex-label">Project 3</span>
+                <span class="pindex-title">Venturi Flow Meter</span>
+                <span class="pindex-tag">CAD and COMSOL for a 3D-printed artery flow meter</span>
+              </span>
+            </a>
+          </li>
+          <li class="pindex-item" style="--i:3">
+            <a href="#project-bananas">
+              <span class="pindex-num" aria-hidden="true">04</span>
+              <span class="pindex-body">
+                <span class="pindex-label">Project 4</span>
+                <span class="pindex-title">Bananas Bananas Bananas!</span>
+                <span class="pindex-tag">Measuring potassium by titration and AAS</span>
+              </span>
+            </a>
+          </li>
+        </ol>
+      </section>
+
+            <section id="project-perfume" class="panel project-page project-chapter" data-nav="projects">
         <p class="chapter-kicker">Project 01 / 04</p>
         <h1>Perfumery</h1>
         <div class="project-story">

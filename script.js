@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   })
 
   // skills entrance order (--i) and line-drawing hooks for the lab illustrations (style.css)
+  document.querySelectorAll('.about-list li').forEach((li,i)=>li.style.setProperty('--i',i))
   let skillOrder=0
   document.querySelectorAll('#skills .skill-group-title, #skills .skills-logos > *, #skills .skill-coursework').forEach(el=>{
     el.style.setProperty('--i',skillOrder++)

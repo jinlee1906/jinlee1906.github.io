@@ -125,6 +125,18 @@
     stepPage(Math.sign(e.deltaY));
   }, { passive: false });
 
+  // links to another chapter on this page glide there too, instead of jumping
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || !storyView() || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const target = a.hash.length > 1 && document.getElementById(a.hash.slice(1));
+    if (!target) return;
+    e.preventDefault();
+    history.replaceState(null, '', a.hash);
+    lockUntil = performance.now() + DURATION;
+    glideTo(Math.min(maxScroll(), Math.round(target.getBoundingClientRect().top + window.scrollY)));
+  });
+
   window.addEventListener('keydown', e => {
     if (!storyView() || e.altKey || e.ctrlKey || e.metaKey) return;
     if (e.target.closest('input, textarea, select, button, [contenteditable]')) return;
