@@ -1673,7 +1673,9 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 :root[data-layout="story"] main .about-list { margin-bottom: 12px; line-height: 1.5; }
 /* the short items share two columns under the perfume line, so About still fits one screen */
 @media (min-width: 769px) {
-  :root[data-layout="story"] main .about-list { display: grid; grid-template-columns: auto auto; justify-content: start; column-gap: 3.5em; }
+  :root[data-layout="story"] main .about-list { display: grid; grid-template-columns: auto auto; justify-content: start; column-gap: 2.5em; }
+  :root[data-layout="story"] main .about-list li { white-space: nowrap; }
+  :root[data-layout="story"] main .about-list li:first-child { white-space: normal; }
   :root[data-layout="story"] main .about-list li:first-child { grid-column: 1 / -1; }
 }
 @media (min-width: 769px) and (max-height: 780px) {
@@ -1819,3 +1821,4 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
   .pindex-title,
   .pindex-item:nth-child(even) .pindex-title { align-self: flex-start; background-position: 0 100%; }
 }
+.nowrap { white-space: nowrap; }
