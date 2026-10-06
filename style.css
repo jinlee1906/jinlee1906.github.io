@@ -1684,10 +1684,11 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 }
 
 /* =========================================
-   PROJECTS DIRECTORY: a contents page ahead of the project chapters (build.py). The four
-   projects sit on alternating sides of a center line, each linking to its chapter. On entry
-   the line draws down, each project slides in from its own side while a node pops onto the
-   line, and its outlined number wipes up into place. Replays on each visit (script.js).
+   DIRECTORY PAGES: a contents page ahead of the project chapters and another ahead of the
+   club chapters (build.py). Entries sit on alternating sides of a center line, each linking
+   to its chapter, sized to the entry count (--n). On entry the line draws down, each entry
+   slides in from its own side while a node pops onto the line, and its outlined number
+   wipes up into place. Replays on each visit (script.js).
    ========================================= */
 .pindex {
   position: relative;
@@ -1737,7 +1738,7 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 .pindex-item:nth-child(even) a { flex-direction: row; text-align: left; }
 .pindex-num {
   flex: none;
-  font-size: clamp(2.6rem, min(10vh, 6vw), 8rem);
+  font-size: clamp(2.6rem, min(40vh / var(--n, 4), 6vw), 8rem);
   font-weight: 700;
   line-height: 0.9;
   color: transparent;
@@ -1753,7 +1754,7 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 }
 .pindex-title {
   align-self: flex-end;
-  font-size: clamp(1.5rem, min(4.4vh, 2.6vw), 3.2rem);
+  font-size: clamp(1.5rem, min(17.6vh / var(--n, 4), 2.6vw), 3.2rem);
   font-weight: 700;
   line-height: 1.05;
   white-space: nowrap;
