@@ -48,9 +48,6 @@ PAGES = [
     {"file": "tcl.html", "title": "Tartan Cultural League",
      "description": "Tartan Cultural League — Jin Lee.",
      "sidebar": "project", "hex_count": 6},
-    {"file": "rocket-command.html", "title": "Carnegie Mellon Rocket Command",
-     "description": "Carnegie Mellon Rocket Command — Jin Lee.",
-     "sidebar": "project", "hex_count": 6},
     {"file": "solar-racing.html", "title": "Carnegie Mellon Solar Racing",
      "description": "Carnegie Mellon Solar Racing — Jin Lee.",
      "sidebar": "project", "hex_count": 6},
@@ -113,7 +110,7 @@ MOTIFS = [
 # Projects and clubs shown as full chapters on the homepage, in order. Each chapter is the
 # same content/<file> that builds the standalone page, minus its "Back to ..." link.
 PROJECT_CHAPTERS = ["perfume.html", "brandstorm.html", "venturiflowmeter.html", "bananas.html"]
-CLUB_CHAPTERS = ["oc.html", "ssa.html", "tcl.html", "rocket-command.html", "solar-racing.html"]
+CLUB_CHAPTERS = ["oc.html", "ssa.html", "tcl.html", "solar-racing.html"]
 
 
 # directory pages (ahead of the project and club chapters): one line under each name, and a
@@ -126,13 +123,11 @@ DIRECTORY_TAGLINES = {
     "oc.html": "First-year and transfer orientation counselor",
     "ssa.html": "President",
     "tcl.html": "Representative for SSA",
-    "rocket-command.html": "CMU's student rocketry team",
-    "solar-racing.html": "CMU's student solar car team",
+    "solar-racing.html": "Power subteam for a solar-electric racing boat",
 }
 DIRECTORY_NAMES = {
     "oc.html": "Orientation Counselor",
     "ssa.html": "Singapore Students Association",
-    "rocket-command.html": "Rocket Command",
     "solar-racing.html": "Solar Racing",
 }
 
