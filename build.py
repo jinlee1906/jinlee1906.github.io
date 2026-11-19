@@ -222,7 +222,7 @@ SITE_FOOTER = f"""    <footer class="site-footer">
         <a href="mailto:jinlee2@andrew.cmu.edu">Email</a>
         <a href="https://www.linkedin.com/in/wenjinlee/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://github.com/jin1906" target="_blank" rel="noopener">GitHub</a>
-        <a href="files/Jin_Lee_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="{asset("files/Jin_Lee_Resume.pdf")}" target="_blank" rel="noopener">Resume</a>
       </span>
     </footer>
 """
@@ -254,7 +254,10 @@ def fingerprint_videos(markup):
     served from a browser's stale cache (a new file under the same name kept playing the old one)."""
     markup = re.sub(r'((?:data-src|src)=")(images/[^"?]+\.mp4)(")',
                     lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
-    return re.sub(r'(poster=")(images/[^"?]+)(")',
+    markup = re.sub(r'(poster=")(images/[^"?]+)(")',
+                    lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
+    # the resume PDF and its preview are replaced in place too
+    return re.sub(r'((?:href|src)=")(files/[^"?]+\.pdf|images/resume-preview\.jpg)(")',
                   lambda m: m.group(1) + asset(m.group(2)) + m.group(3), markup)
 
 

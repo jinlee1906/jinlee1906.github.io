@@ -1856,6 +1856,8 @@ html.hero-in .hex-background { animation: heroFade 1.8s ease 0.3s backwards; }
 /* laptop-height screens: a little less space between the About paragraphs so the taller
    GSU + Emory stack still fits one screen */
 @media (min-width: 769px) and (min-height: 781px) and (max-height: 860px) {
-  :root[data-layout="story"] main .about-text p { margin-bottom: 9px; }
-  :root[data-layout="story"] main .about-list { margin-bottom: 9px; }
+  :root[data-layout="story"] main .about-text p { margin-bottom: 6px; }
+  :root[data-layout="story"] main .about-list { margin-bottom: 6px; }
+  :root[data-layout="story"] main .transfer { margin: 2px 0 12px; }
+  :root[data-layout="story"] main .about-links { margin-top: 10px; }
 }
